@@ -1,4 +1,5 @@
 package com.milla.inventario.service;
 
-public class StockService {
+public interface IAuthService {
+
 }

@@ -1,4 +1,4 @@
 package com.milla.inventario.service;
 
-public class SalidaService {
+public interface IProductoService {
 }

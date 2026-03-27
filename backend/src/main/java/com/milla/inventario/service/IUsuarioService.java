@@ -1,4 +1,4 @@
 package com.milla.inventario.service;
 
-public class MarcaService {
+public interface IUsuarioService {
 }

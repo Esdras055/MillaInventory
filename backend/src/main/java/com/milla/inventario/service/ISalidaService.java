@@ -1,4 +1,4 @@
 package com.milla.inventario.service;
 
-public class CategoriaService {
+public interface ISalidaService {
 }
