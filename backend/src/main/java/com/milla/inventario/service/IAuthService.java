@@ -1,5 +1,8 @@
 package com.milla.inventario.service;
 
-public interface IAuthService {
+import com.milla.inventario.dto.usuario.AuthResponseDTO;
+import com.milla.inventario.dto.usuario.LoginDTO;
 
+public interface IAuthService {
+    AuthResponseDTO authenticate(LoginDTO request);
 }
