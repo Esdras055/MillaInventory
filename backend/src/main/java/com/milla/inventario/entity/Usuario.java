@@ -1,5 +1,7 @@
 package com.milla.inventario.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +24,7 @@ public class Usuario {
     private String password;
     private boolean enabled;
     private boolean accountNonLocked;
-    private java.util.Date createdAt;
-    private java.util.Date updatedAt;
-    private java.util.Date lastLogin;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date lastLogin;
 }

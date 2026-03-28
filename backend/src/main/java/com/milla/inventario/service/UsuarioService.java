@@ -28,6 +28,8 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public UsuarioDTO create(CrearUsuarioDTO request) {
+        validateCreateRequest(request);
+
         usuarioRepository.findByUsername(request.getUsername()).ifPresent(u -> {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El nombre de usuario ya existe");
         });
@@ -40,6 +42,8 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public UsuarioDTO update(Long id, ActualizarUsuarioDTO request) {
+        validateUpdateRequest(request);
+
         Usuario existing = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
@@ -83,5 +87,33 @@ public class UsuarioService implements IUsuarioService {
         return usuarioRepository.findAll().stream()
                 .map(UsuarioMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    private void validateCreateRequest(CrearUsuarioDTO request) {
+        if (request == null
+                || isBlank(request.getName())
+                || isBlank(request.getUsername())
+                || isBlank(request.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name, username y password son requeridos");
+        }
+    }
+
+    private void validateUpdateRequest(ActualizarUsuarioDTO request) {
+        if (request == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El cuerpo de la solicitud es requerido");
+        }
+        if (request.getName() != null && request.getName().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name no puede estar vacio");
+        }
+        if (request.getUsername() != null && request.getUsername().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username no puede estar vacio");
+        }
+        if (request.getPassword() != null && request.getPassword().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password no puede estar vacio");
+        }
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.isBlank();
     }
 }
