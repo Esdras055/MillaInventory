@@ -1,6 +1,5 @@
 package com.milla.inventario.exception;
 
-import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<ApiErrorResponse> buildResponse(HttpStatus status, String message, String path) {
-        ApiErrorResponse body = new ApiErrorResponse(
-                Instant.now(),
-                status.value(),
-                status.getReasonPhrase(),
-                message,
-                path
-        );
+        ApiErrorResponse body = ApiErrorResponse.from(status, message, path);
         return ResponseEntity.status(status).body(body);
     }
 }

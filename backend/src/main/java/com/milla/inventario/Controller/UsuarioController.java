@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.milla.inventario.dto.common.ApiMessageResponse;
 import com.milla.inventario.dto.usuario.ActualizarUsuarioDTO;
 import com.milla.inventario.dto.usuario.CrearUsuarioDTO;
 import com.milla.inventario.dto.usuario.UsuarioDTO;
@@ -49,8 +50,8 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiMessageResponse> delete(@PathVariable Long id) {
         usuarioService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ApiMessageResponse("Usuario eliminado correctamente"));
     }
 }

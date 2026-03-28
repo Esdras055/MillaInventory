@@ -1,5 +1,9 @@
 package com.milla.inventario.dto.bodega;
 
-public class ActualizarBodegaDTO {
+import lombok.Data;
 
+@Data
+public class ActualizarBodegaDTO {
+    private String nombre;
+    private Long ubicacionId;
 }
