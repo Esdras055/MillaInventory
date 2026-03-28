@@ -1,0 +1,128 @@
+{
+  "info": {
+    "name": "MillaInventory API",
+    "_postman_id": "abf8ff22-1234-5678-90ab-cdef12345678",
+    "description": "Colección para login JWT y gestión de usuarios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 - Login (obtener JWT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"tu_usuario\",\n  \"password\": \"tu_password\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2 - Crear usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api","users"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Omar Parada\",\n  \"username\": \"farid\",\n  \"password\": \"pass123\"\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3 - Listar usuarios",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api","users"] }
+      },
+      "response": []
+    },
+    {
+      "name": "4 - Ver usuario por id",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","users","{{userId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5 - Actualizar usuario",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","users","{{userId}}"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Omar F. Parada\",\n  \"password\": \"nuevopass\",\n  \"enabled\": true,\n  \"accountNonLocked\": true\n}"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6 - Borrar usuario",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api","users","{{userId}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [],
+        "type": "text/javascript"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "if (pm.response.code === 200 && pm.request.url.path.includes('auth/login')) {",
+          "    var jsonData = pm.response.json();",
+          "    pm.environment.set('jwtToken', jsonData.token);",
+          "}"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "jwtToken", "value": "" },
+    { "key": "userId", "value": "1" }
+  ]
+}
