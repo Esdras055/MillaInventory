@@ -6,7 +6,19 @@ CREATE DATABASE milla_inventory;
 -- ========================
 CREATE TABLE categorias (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+    nombre VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ========================
+-- TABLA: ubicaciones
+-- ========================
+CREATE TABLE ubicaciones (
+    id SERIAL PRIMARY KEY,
+    municipio VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ========================
@@ -15,7 +27,10 @@ CREATE TABLE categorias (
 CREATE TABLE bodegas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    ubicacion VARCHAR(100) NOT NULL
+    ubicacionId INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ubicacionId) REFERENCES ubicaciones(id)
 );
 
 -- ========================
@@ -25,7 +40,9 @@ CREATE TABLE proveedores (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    telefono VARCHAR(8) NOT NULL
+    telefono VARCHAR(8) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ========================
@@ -33,7 +50,9 @@ CREATE TABLE proveedores (
 -- ========================
 CREATE TABLE marcas (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+    nombre VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ========================
@@ -44,6 +63,8 @@ CREATE TABLE productos (
     nombre VARCHAR(100) NOT NULL,
     categoriaId INTEGER NOT NULL,
     precio NUMERIC(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (categoriaId) REFERENCES categorias(id)
 );
 
@@ -66,6 +87,8 @@ CREATE TABLE bodegas_productos (
     productoId INTEGER NOT NULL,
     bodegaId INTEGER NOT NULL,
     cantidad INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (productoId, bodegaId),
     FOREIGN KEY (productoId) REFERENCES productos(id),
     FOREIGN KEY (bodegaId) REFERENCES bodegas(id)
@@ -82,6 +105,8 @@ CREATE TABLE entradas (
     fecha DATE NOT NULL,
     precio_adquisicion NUMERIC(10,2) NOT NULL,
     cantidad INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (productoId) REFERENCES productos(id),
     FOREIGN KEY (proveedorId) REFERENCES proveedores(id),
     FOREIGN KEY (bodegaId) REFERENCES bodegas(id)
@@ -96,6 +121,8 @@ CREATE TABLE salidas (
     bodegaId INTEGER NOT NULL,
     fecha DATE NOT NULL,
     cantidad INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (productoId) REFERENCES productos(id),
     FOREIGN KEY (bodegaId) REFERENCES bodegas(id)
 );
@@ -105,7 +132,9 @@ CREATE TABLE salidas (
 -- ========================
 CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL
+    name VARCHAR(50) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ========================
@@ -143,6 +172,7 @@ CREATE TABLE tokens (
     token TEXT NOT NULL,
     expired BOOLEAN DEFAULT FALSE,
     revoked BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -158,12 +188,19 @@ INSERT INTO categorias (nombre) VALUES
 ('Cocina'),
 ('Oficina');
 
+-- ubicaciones
+INSERT INTO ubicaciones (municipio) VALUES
+('Santa Tecla'),
+('San Salvador'),
+('San Miguel'),
+('Santa Ana');
+
 -- bodegas
-INSERT INTO bodegas (nombre, ubicacion) VALUES
-('Bodega A','Santa Tecla'),
-('Bodega B','San Salvador'),
-('Bodega C','San Miguel'),
-('Bodega D','Santa Ana');
+INSERT INTO bodegas (nombre, ubicacionId) VALUES
+('Bodega A',1),
+('Bodega B',2),
+('Bodega C',3),
+('Bodega D',4);
 
 -- proveedores
 INSERT INTO proveedores (nombre, email, telefono) VALUES
@@ -236,6 +273,10 @@ CREATE INDEX idx_users_roles_role ON users_roles(roleId);
 
 -- productos y categorias
 CREATE INDEX idx_productos_categoria ON productos(categoriaId);
+
+-- ubicaciones y bodegas
+CREATE INDEX idx_ubicaciones_municipio ON ubicaciones(municipio);
+CREATE INDEX idx_bodegas_ubicacion ON bodegas(ubicacionId);
 
 -- Stock bodegas_productos
 CREATE INDEX idx_bodegas_productos_producto ON bodegas_productos(productoId);
