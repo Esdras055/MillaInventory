@@ -2,7 +2,7 @@
 
 ## Integrantes
 - **Omar Farid Parada Paredes** - **PP16018**
-- **Esdras Lorenzo Peraza Pérez** - **PP24012**
+- **Esdras Leonel Peraza Pérez** - **PP24012**
 - **Rodrigo Antonio Alvarado Pérez** - **AP23050**
 - **Ricardo José Guevara Aldana** - **GA24023**
 
