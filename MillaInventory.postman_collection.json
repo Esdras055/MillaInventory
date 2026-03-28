@@ -2,101 +2,303 @@
   "info": {
     "name": "MillaInventory API",
     "_postman_id": "abf8ff22-1234-5678-90ab-cdef12345678",
-    "description": "Colección para login JWT y gestión de usuarios",
+    "description": "Coleccion organizada por modulos para autenticacion, usuarios, bodegas y ubicaciones.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "1 - Login (obtener JWT)",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
-        "url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api","auth","login"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"tu_usuario\",\n  \"password\": \"tu_password\"\n}"
+      "name": "Gestion de autenticacion",
+      "item": [
+        {
+          "name": "1 - Login (obtener JWT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"farid@test.com\",\n  \"password\": \"prueba1\"\n}"
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "2 - Crear usuario",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
-        ],
-        "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api","users"] },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Omar Parada\",\n  \"username\": \"farid\",\n  \"password\": \"pass123\"\n}"
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "3 - Listar usuarios",
-      "request": {
-        "method": "GET",
-        "header": [
-          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
-        ],
-        "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api","users"] }
-      },
-      "response": []
-    },
-    {
-      "name": "4 - Ver usuario por id",
-      "request": {
-        "method": "GET",
-        "header": [
-          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/users/{{userId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["api","users","{{userId}}"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "5 - Actualizar usuario",
-      "request": {
-        "method": "PUT",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/users/{{userId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["api","users","{{userId}}"]
+      "name": "Gestion de usuarios",
+      "item": [
+        {
+          "name": "1 - Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nuevo Usuario\",\n  \"username\": \"usuario_nuevo@test.com\",\n  \"password\": \"clave123\"\n}"
+            }
+          },
+          "response": []
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Omar F. Parada\",\n  \"password\": \"nuevopass\",\n  \"enabled\": true,\n  \"accountNonLocked\": true\n}"
+        {
+          "name": "2 - Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver usuario por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Usuario Actualizado\",\n  \"enabled\": true,\n  \"accountNonLocked\": true\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "6 - Borrar usuario",
-      "request": {
-        "method": "DELETE",
-        "header": [
-          { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/users/{{userId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["api","users","{{userId}}"]
+      "name": "Gestion de ubicaciones",
+      "item": [
+        {
+          "name": "1 - Crear ubicacion",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ubicaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ubicaciones"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"municipio\": \"Mejicanos\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar ubicaciones",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ubicaciones",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ubicaciones"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver ubicacion por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ubicaciones/{{ubicacionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ubicaciones", "{{ubicacionId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar ubicacion",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ubicaciones/{{ubicacionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ubicaciones", "{{ubicacionId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"municipio\": \"Apopa\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar ubicacion",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/ubicaciones/{{ubicacionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "ubicaciones", "{{ubicacionId}}"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
+    },
+    {
+      "name": "Gestion de bodegas",
+      "item": [
+        {
+          "name": "1 - Crear bodega",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Bodega Centro\",\n  \"ubicacionId\": {{ubicacionId}}\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar bodegas",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver bodega por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar bodega",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas", "{{bodegaId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Bodega Centro Actualizada\",\n  \"ubicacionId\": {{ubicacionId}}\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar bodega",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -113,7 +315,22 @@
         "exec": [
           "if (pm.response.code === 200 && pm.request.url.path.includes('auth/login')) {",
           "    var jsonData = pm.response.json();",
-          "    pm.environment.set('jwtToken', jsonData.token);",
+          "    pm.collectionVariables.set('jwtToken', jsonData.token);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('users')) {",
+          "    var userData = pm.response.json();",
+          "    pm.collectionVariables.set('userId', userData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('ubicaciones')) {",
+          "    var ubicacionData = pm.response.json();",
+          "    pm.collectionVariables.set('ubicacionId', ubicacionData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('bodegas')) {",
+          "    var bodegaData = pm.response.json();",
+          "    pm.collectionVariables.set('bodegaId', bodegaData.id);",
           "}"
         ],
         "type": "text/javascript"
@@ -123,6 +340,8 @@
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8080" },
     { "key": "jwtToken", "value": "" },
-    { "key": "userId", "value": "1" }
+    { "key": "userId", "value": "1" },
+    { "key": "ubicacionId", "value": "1" },
+    { "key": "bodegaId", "value": "1" }
   ]
 }
