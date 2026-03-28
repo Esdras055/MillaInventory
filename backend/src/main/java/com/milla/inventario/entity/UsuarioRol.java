@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "users_roles")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @IdClass(UsuarioRolId.class)
 public class UsuarioRol {
     @Id
-    @Column(name = "userId")
+    @Column(name = "userid")
     private Long userId;
     @Id
-    @Column(name = "roleId")
+    @Column(name = "roleid")
     private long roleId;
 
 }
