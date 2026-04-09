@@ -32,6 +32,7 @@ backend/!**/src/test/**/build/
 ### VS Code ###
 backend/.vscode/
 .vscode/
+.idea/
 
 ._*
 .DS_Store
