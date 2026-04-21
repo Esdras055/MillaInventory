@@ -24,8 +24,8 @@ public class OpenApiConfig {
                         .description("API para la gestion de usuarios, ubicaciones y bodegas del sistema Inventario MILLA.")
                         .version("1.0.0")
                         .contact(new Contact()
-                                .name("Equipo Inventario MILLA")
-                                .email("pp16018@ues.edu.sv")))
+                                .name("Lider del grupo: Esdras Leonel Peraza")
+                                .email("pp24012@ues.edu.sv")))
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .components(new Components()
                         .addSecuritySchemes(SECURITY_SCHEME_NAME,
