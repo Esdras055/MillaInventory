@@ -1,5 +1,8 @@
 package com.milla.inventario.dto.categoria;
 
-public class ActualizarCategoriaDTO {
+import lombok.Data;
 
+@Data
+public class ActualizarCategoriaDTO {
+    private String nombre;
 }

@@ -2,7 +2,7 @@
   "info": {
     "name": "MillaInventory API",
     "_postman_id": "abf8ff22-1234-5678-90ab-cdef12345678",
-    "description": "Coleccion organizada por modulos para autenticacion, usuarios, bodegas y ubicaciones.",
+    "description": "Coleccion organizada por modulos para autenticacion, usuarios, categorias, bodegas y ubicaciones.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -211,6 +211,96 @@
       ]
     },
     {
+      "name": "Gestion de categorias",
+      "item": [
+        {
+          "name": "1 - Crear categoria",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sillas\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar categorias",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver categoria por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias", "{{categoriaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar categoria",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias", "{{categoriaId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sillas Actualizadas\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar categoria",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias", "{{categoriaId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Gestion de bodegas",
       "item": [
         {
@@ -328,6 +418,11 @@
           "    pm.collectionVariables.set('ubicacionId', ubicacionData.id);",
           "}",
           "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('categorias')) {",
+          "    var categoriaData = pm.response.json();",
+          "    pm.collectionVariables.set('categoriaId', categoriaData.id);",
+          "}",
+          "",
           "if (pm.response.code === 201 && pm.request.url.path.includes('bodegas')) {",
           "    var bodegaData = pm.response.json();",
           "    pm.collectionVariables.set('bodegaId', bodegaData.id);",
@@ -342,6 +437,7 @@
     { "key": "jwtToken", "value": "" },
     { "key": "userId", "value": "1" },
     { "key": "ubicacionId", "value": "1" },
+    { "key": "categoriaId", "value": "1" },
     { "key": "bodegaId", "value": "1" }
   ]
 }
