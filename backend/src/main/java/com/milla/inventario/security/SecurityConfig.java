@@ -32,8 +32,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos", "/api/bodegas-productos").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**", "/api/bodegas-productos/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .exceptionHandling(exception -> exception
