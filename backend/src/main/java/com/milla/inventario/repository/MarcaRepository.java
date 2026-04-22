@@ -1,6 +1,11 @@
 package com.milla.inventario.repository;
 
-public interface MarcaRepository {
+import java.util.Optional;
 
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.milla.inventario.entity.Marca;
+
+public interface MarcaRepository extends JpaRepository<Marca, Long> {
+    Optional<Marca> findByNombre(String nombre);
 }

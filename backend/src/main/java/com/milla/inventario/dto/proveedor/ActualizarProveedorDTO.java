@@ -1,5 +1,10 @@
 package com.milla.inventario.dto.proveedor;
 
-public class ActualizarProveedorDTO {
+import lombok.Data;
 
+@Data
+public class ActualizarProveedorDTO {
+    private String nombre;
+    private String email;
+    private String telefono;
 }

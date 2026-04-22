@@ -1,5 +1,8 @@
 package com.milla.inventario.dto.marca;
 
-public class ActualizarMarcaDTO {
+import lombok.Data;
 
+@Data
+public class ActualizarMarcaDTO {
+    private String nombre;
 }

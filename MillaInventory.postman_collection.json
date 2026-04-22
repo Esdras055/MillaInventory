@@ -2,7 +2,7 @@
   "info": {
     "name": "MillaInventory API",
     "_postman_id": "abf8ff22-1234-5678-90ab-cdef12345678",
-    "description": "Coleccion organizada por modulos para autenticacion, usuarios, bodegas y ubicaciones.",
+    "description": "Coleccion organizada por modulos para autenticacion, usuarios, categorias, marcas, proveedores, productos, bodegas, stock y ubicaciones.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -211,6 +211,366 @@
       ]
     },
     {
+      "name": "Gestion de categorias",
+      "item": [
+        {
+          "name": "1 - Crear categoria",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sillas\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar categorias",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver categoria por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias", "{{categoriaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar categoria",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias", "{{categoriaId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Sillas Actualizadas\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar categoria",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias", "{{categoriaId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestion de marcas",
+      "item": [
+        {
+          "name": "1 - Crear marca",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/marcas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "marcas"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Milla\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar marcas",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/marcas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "marcas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver marca por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/marcas/{{marcaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "marcas", "{{marcaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar marca",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/marcas/{{marcaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "marcas", "{{marcaId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Milla Actualizada\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar marca",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/marcas/{{marcaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "marcas", "{{marcaId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestion de proveedores",
+      "item": [
+        {
+          "name": "1 - Crear proveedor",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/proveedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "proveedores"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Proveedor Nuevo\",\n  \"email\": \"proveedor.nuevo@correo.com\",\n  \"telefono\": \"22223333\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar proveedores",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/proveedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "proveedores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver proveedor por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/proveedores/{{proveedorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "proveedores", "{{proveedorId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar proveedor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/proveedores/{{proveedorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "proveedores", "{{proveedorId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Proveedor Actualizado\",\n  \"email\": \"proveedor.actualizado@correo.com\",\n  \"telefono\": \"77778888\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar proveedor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/proveedores/{{proveedorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "proveedores", "{{proveedorId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestion de productos",
+      "item": [
+        {
+          "name": "1 - Crear producto",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Mesa auxiliar\",\n  \"categoriaId\": {{categoriaId}},\n  \"precio\": 149.99,\n  \"marcaIds\": [{{marcaId}}]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar productos",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver producto por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Actualizar producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Mesa auxiliar actualizada\",\n  \"categoriaId\": {{categoriaId}},\n  \"precio\": 179.99,\n  \"marcaIds\": [{{marcaId}}]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Borrar producto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/productos/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "productos", "{{productoId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Gestion de bodegas",
       "item": [
         {
@@ -299,6 +659,126 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Gestion de bodegas productos",
+      "item": [
+        {
+          "name": "1 - Crear stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoId}},\n  \"bodegaId\": {{bodegaId}},\n  \"cantidad\": 10\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar stock",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver stock por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos/{{bodegaProductoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos", "{{bodegaProductoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Listar stock por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Listar stock por bodega",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos/bodega/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos", "bodega", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Actualizar stock",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos/{{bodegaProductoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos", "{{bodegaProductoId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidad\": 15\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 - Borrar stock",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bodegas-productos/{{bodegaProductoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bodegas-productos", "{{bodegaProductoId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -328,9 +808,34 @@
           "    pm.collectionVariables.set('ubicacionId', ubicacionData.id);",
           "}",
           "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('categorias')) {",
+          "    var categoriaData = pm.response.json();",
+          "    pm.collectionVariables.set('categoriaId', categoriaData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('marcas')) {",
+          "    var marcaData = pm.response.json();",
+          "    pm.collectionVariables.set('marcaId', marcaData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('proveedores')) {",
+          "    var proveedorData = pm.response.json();",
+          "    pm.collectionVariables.set('proveedorId', proveedorData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('productos')) {",
+          "    var productoData = pm.response.json();",
+          "    pm.collectionVariables.set('productoId', productoData.id);",
+          "}",
+          "",
           "if (pm.response.code === 201 && pm.request.url.path.includes('bodegas')) {",
           "    var bodegaData = pm.response.json();",
           "    pm.collectionVariables.set('bodegaId', bodegaData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('bodegas-productos')) {",
+          "    var bodegaProductoData = pm.response.json();",
+          "    pm.collectionVariables.set('bodegaProductoId', bodegaProductoData.id);",
           "}"
         ],
         "type": "text/javascript"
@@ -342,6 +847,11 @@
     { "key": "jwtToken", "value": "" },
     { "key": "userId", "value": "1" },
     { "key": "ubicacionId", "value": "1" },
-    { "key": "bodegaId", "value": "1" }
+    { "key": "categoriaId", "value": "1" },
+    { "key": "marcaId", "value": "1" },
+    { "key": "proveedorId", "value": "1" },
+    { "key": "productoId", "value": "1" },
+    { "key": "bodegaId", "value": "1" },
+    { "key": "bodegaProductoId", "value": "1" }
   ]
 }
