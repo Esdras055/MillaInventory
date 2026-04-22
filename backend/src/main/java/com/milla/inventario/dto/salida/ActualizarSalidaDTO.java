@@ -1,5 +1,13 @@
 package com.milla.inventario.dto.salida;
 
-public class ActualizarSalidaDTO {
+import java.time.LocalDate;
 
+import lombok.Data;
+
+@Data
+public class ActualizarSalidaDTO {
+    private Long productoId;
+    private Long bodegaId;
+    private LocalDate fecha;
+    private Integer cantidad;
 }
