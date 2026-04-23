@@ -914,6 +914,108 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Gestion de reportes",
+      "item": [
+        {
+          "name": "1 - Resumen general",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/resumen",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "resumen"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Stock por bodega",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/stock/bodega/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "stock", "bodega", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Stock por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/stock/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "stock", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Productos bajo stock",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/productos-bajo-stock?minimo=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "productos-bajo-stock"],
+              "query": [
+                { "key": "minimo", "value": "5" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Movimientos por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/movimientos/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "movimientos", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Movimientos por rango",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/movimientos?fechaInicio=2026-04-01&fechaFin=2026-04-30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "movimientos"],
+              "query": [
+                { "key": "fechaInicio", "value": "2026-04-01" },
+                { "key": "fechaFin", "value": "2026-04-30" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
