@@ -2,7 +2,7 @@
   "info": {
     "name": "MillaInventory API",
     "_postman_id": "abf8ff22-1234-5678-90ab-cdef12345678",
-    "description": "Coleccion organizada por modulos para autenticacion, usuarios, categorias, marcas, proveedores, productos, bodegas, stock y ubicaciones.",
+    "description": "Coleccion organizada por modulos para autenticacion, usuarios, categorias, marcas, proveedores, productos, bodegas, stock, entradas, salidas y ubicaciones.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -779,6 +779,126 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Gestion de salidas",
+      "item": [
+        {
+          "name": "1 - Crear salida",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoId}},\n  \"bodegaId\": {{bodegaId}},\n  \"fecha\": \"2026-04-22\",\n  \"cantidad\": 1\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar salidas",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver salida por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/{{salidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "{{salidaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Listar salidas por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Listar salidas por bodega",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/bodega/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "bodega", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Actualizar salida",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/{{salidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "{{salidaId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoId}},\n  \"bodegaId\": {{bodegaId}},\n  \"fecha\": \"2026-04-22\",\n  \"cantidad\": 2\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 - Borrar salida",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/{{salidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "{{salidaId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -836,6 +956,11 @@
           "if (pm.response.code === 201 && pm.request.url.path.includes('bodegas-productos')) {",
           "    var bodegaProductoData = pm.response.json();",
           "    pm.collectionVariables.set('bodegaProductoId', bodegaProductoData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('salidas')) {",
+          "    var salidaData = pm.response.json();",
+          "    pm.collectionVariables.set('salidaId', salidaData.id);",
           "}"
         ],
         "type": "text/javascript"
@@ -852,6 +977,7 @@
     { "key": "proveedorId", "value": "1" },
     { "key": "productoId", "value": "1" },
     { "key": "bodegaId", "value": "1" },
-    { "key": "bodegaProductoId", "value": "1" }
+    { "key": "bodegaProductoId", "value": "1" },
+    { "key": "salidaId", "value": "1" }
   ]
 }
