@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "token")
+@Table(name = "tokens")
 @Data
 public class Token {
 
@@ -25,6 +25,6 @@ public class Token {
     private boolean revoked;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "userid")
     private Usuario usuario;
 }
