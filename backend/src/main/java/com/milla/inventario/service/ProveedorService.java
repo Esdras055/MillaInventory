@@ -68,7 +68,7 @@ public class ProveedorService implements IProveedorService {
             existing.setTelefono(request.getTelefono());
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return ProveedorMapper.toDTO(proveedorRepository.save(existing));
     }
 

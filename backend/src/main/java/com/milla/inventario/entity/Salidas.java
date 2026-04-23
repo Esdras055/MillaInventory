@@ -1,7 +1,7 @@
 package com.milla.inventario.entity;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +31,6 @@ public class Salidas {
     private Bodega bodega;
     private LocalDate fecha;
     private Integer cantidad;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

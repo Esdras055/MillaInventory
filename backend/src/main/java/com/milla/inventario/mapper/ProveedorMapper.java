@@ -26,8 +26,8 @@ public class ProveedorMapper {
         proveedor.setNombre(dto.getNombre());
         proveedor.setEmail(dto.getEmail());
         proveedor.setTelefono(dto.getTelefono());
-        proveedor.setCreatedAt(new java.util.Date());
-        proveedor.setUpdatedAt(new java.util.Date());
+        proveedor.setCreatedAt(java.time.LocalDateTime.now());
+        proveedor.setUpdatedAt(java.time.LocalDateTime.now());
         return proveedor;
     }
 }

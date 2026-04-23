@@ -53,7 +53,7 @@ public class MarcaService implements IMarcaService {
             existing.setNombre(request.getNombre());
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return MarcaMapper.toDTO(marcaRepository.save(existing));
     }
 

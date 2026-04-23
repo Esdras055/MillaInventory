@@ -1,7 +1,7 @@
 package com.milla.inventario.dto.salida;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -14,6 +14,6 @@ public class SalidaDTO {
     private String bodegaNombre;
     private LocalDate fecha;
     private Integer cantidad;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

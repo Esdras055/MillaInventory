@@ -4,6 +4,26 @@
       "name": "jwt.secret",
       "type": "java.lang.String",
       "description": "Clave secreta usada para firmar y validar tokens JWT."
+    },
+    {
+      "name": "DB_URL",
+      "type": "java.lang.String",
+      "description": "URL JDBC de la base de datos PostgreSQL."
+    },
+    {
+      "name": "DB_USERNAME",
+      "type": "java.lang.String",
+      "description": "Usuario de conexion a PostgreSQL."
+    },
+    {
+      "name": "DB_PASSWORD",
+      "type": "java.lang.String",
+      "description": "Password de conexion a PostgreSQL."
+    },
+    {
+      "name": "JWT_SECRET",
+      "type": "java.lang.String",
+      "description": "Secreto usado para configurar jwt.secret."
     }
   ]
 }

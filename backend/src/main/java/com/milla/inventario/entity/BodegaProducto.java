@@ -1,6 +1,6 @@
 package com.milla.inventario.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +31,6 @@ public class BodegaProducto {
     @JoinColumn(name = "bodegaid")
     private Bodega bodega;
     private Integer cantidad;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

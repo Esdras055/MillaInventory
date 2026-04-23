@@ -75,7 +75,7 @@ public class UsuarioService implements IUsuarioService {
         if (request.getEnabled() != null) existing.setEnabled(request.getEnabled());
         if (request.getAccountNonLocked() != null) existing.setAccountNonLocked(request.getAccountNonLocked());
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
 
         Usuario updated = usuarioRepository.save(existing);
         return UsuarioMapper.toDTO(updated);

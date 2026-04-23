@@ -1,6 +1,6 @@
 package com.milla.inventario.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +25,6 @@ public class Bodega {
     @ManyToOne(optional = false)
     @JoinColumn(name = "ubicacionid")
     private Ubicacion ubicacion;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

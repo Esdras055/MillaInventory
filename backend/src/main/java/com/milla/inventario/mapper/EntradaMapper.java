@@ -44,8 +44,8 @@ public class EntradaMapper {
         entrada.setFecha(dto.getFecha());
         entrada.setPrecioAdquisicion(dto.getPrecioAdquisicion());
         entrada.setCantidad(dto.getCantidad());
-        entrada.setCreatedAt(new java.util.Date());
-        entrada.setUpdatedAt(new java.util.Date());
+        entrada.setCreatedAt(java.time.LocalDateTime.now());
+        entrada.setUpdatedAt(java.time.LocalDateTime.now());
         return entrada;
     }
 }

@@ -22,8 +22,8 @@ public class CategoriaMapper {
 
         Categoria categoria = new Categoria();
         categoria.setNombre(dto.getNombre());
-        categoria.setCreatedAt(new java.util.Date());
-        categoria.setUpdatedAt(new java.util.Date());
+        categoria.setCreatedAt(java.time.LocalDateTime.now());
+        categoria.setUpdatedAt(java.time.LocalDateTime.now());
         return categoria;
     }
 }

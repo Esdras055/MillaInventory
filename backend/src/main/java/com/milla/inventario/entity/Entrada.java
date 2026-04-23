@@ -2,7 +2,7 @@ package com.milla.inventario.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +34,6 @@ public class Entrada {
     private LocalDate fecha;
     private BigDecimal precioAdquisicion;
     private Integer cantidad;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

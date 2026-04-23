@@ -1,5 +1,7 @@
 package com.milla.inventario.dto.bodega;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -8,6 +10,6 @@ public class BodegaDTO {
     private String nombre;
     private Long ubicacionId;
     private String municipio;
-    private java.util.Date createdAt;
-    private java.util.Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

@@ -72,7 +72,7 @@ public class SalidaService implements ISalidaService {
         existing.setBodega(bodega);
         if (dto.getFecha() != null) existing.setFecha(dto.getFecha());
         existing.setCantidad(cantidad);
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
 
         return SalidaMapper.toDTO(salidaRepository.save(existing));
     }
@@ -124,7 +124,7 @@ public class SalidaService implements ISalidaService {
         }
 
         stock.setCantidad(nuevaCantidad);
-        stock.setUpdatedAt(new java.util.Date());
+        stock.setUpdatedAt(java.time.LocalDateTime.now());
         bodegaProductoRepository.save(stock);
     }
 
@@ -135,13 +135,13 @@ public class SalidaService implements ISalidaService {
                     nuevoStock.setProducto(producto);
                     nuevoStock.setBodega(bodega);
                     nuevoStock.setCantidad(0);
-                    nuevoStock.setCreatedAt(new java.util.Date());
-                    nuevoStock.setUpdatedAt(new java.util.Date());
+                    nuevoStock.setCreatedAt(java.time.LocalDateTime.now());
+                    nuevoStock.setUpdatedAt(java.time.LocalDateTime.now());
                     return nuevoStock;
                 });
 
         stock.setCantidad(stock.getCantidad() + cantidad);
-        stock.setUpdatedAt(new java.util.Date());
+        stock.setUpdatedAt(java.time.LocalDateTime.now());
         bodegaProductoRepository.save(stock);
     }
 

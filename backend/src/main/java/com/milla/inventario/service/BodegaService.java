@@ -42,8 +42,8 @@ public class BodegaService implements IBodegaService {
         Bodega bodega = new Bodega();
         bodega.setNombre(request.getNombre());
         bodega.setUbicacion(ubicacion);
-        bodega.setCreatedAt(new java.util.Date());
-        bodega.setUpdatedAt(new java.util.Date());
+        bodega.setCreatedAt(java.time.LocalDateTime.now());
+        bodega.setUpdatedAt(java.time.LocalDateTime.now());
 
         return BodegaMapper.toDTO(bodegaRepository.save(bodega));
     }
@@ -68,7 +68,7 @@ public class BodegaService implements IBodegaService {
             existing.setUbicacion(findUbicacionOrThrow(request.getUbicacionId()));
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return BodegaMapper.toDTO(bodegaRepository.save(existing));
     }
 

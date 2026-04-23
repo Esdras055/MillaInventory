@@ -34,8 +34,8 @@ public class BodegaProductoMapper {
         stock.setProducto(producto);
         stock.setBodega(bodega);
         stock.setCantidad(dto.getCantidad());
-        stock.setCreatedAt(new java.util.Date());
-        stock.setUpdatedAt(new java.util.Date());
+        stock.setCreatedAt(java.time.LocalDateTime.now());
+        stock.setUpdatedAt(java.time.LocalDateTime.now());
         return stock;
     }
 }

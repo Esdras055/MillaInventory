@@ -81,7 +81,7 @@ public class ProductoService implements IProductoService {
             existing.setMarcas(findMarcasOrThrow(request.getMarcaIds()));
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return ProductoMapper.toDTO(productoRepository.save(existing));
     }
 

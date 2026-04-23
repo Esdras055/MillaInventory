@@ -57,7 +57,7 @@ public class BodegaProductoService implements IBodegaProductoService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Stock no encontrado"));
 
         existing.setCantidad(request.getCantidad());
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
 
         return BodegaProductoMapper.toDTO(bodegaProductoRepository.save(existing));
     }

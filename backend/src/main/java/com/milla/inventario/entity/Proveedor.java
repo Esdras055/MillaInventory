@@ -1,6 +1,6 @@
 package com.milla.inventario.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +21,6 @@ public class Proveedor {
     private String nombre;
     private String email;
     private String telefono;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

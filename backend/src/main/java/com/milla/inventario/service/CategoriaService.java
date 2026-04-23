@@ -53,7 +53,7 @@ public class CategoriaService implements ICategoriaService {
             existing.setNombre(request.getNombre());
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return CategoriaMapper.toDTO(categoriaRepository.save(existing));
     }
 

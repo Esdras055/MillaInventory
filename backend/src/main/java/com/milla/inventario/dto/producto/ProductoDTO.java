@@ -1,7 +1,7 @@
 package com.milla.inventario.dto.producto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.milla.inventario.dto.marca.MarcaDTO;
@@ -16,6 +16,6 @@ public class ProductoDTO {
     private String categoriaNombre;
     private BigDecimal precio;
     private List<MarcaDTO> marcas;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

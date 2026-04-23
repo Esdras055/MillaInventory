@@ -81,7 +81,7 @@ public class EntradaService implements IEntradaService {
         if (request.getFecha() != null) existing.setFecha(request.getFecha());
         if (request.getPrecioAdquisicion() != null) existing.setPrecioAdquisicion(request.getPrecioAdquisicion());
         existing.setCantidad(cantidad);
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
 
         return EntradaMapper.toDTO(entradaRepository.save(existing));
     }
@@ -137,13 +137,13 @@ public class EntradaService implements IEntradaService {
                     nuevoStock.setProducto(producto);
                     nuevoStock.setBodega(bodega);
                     nuevoStock.setCantidad(0);
-                    nuevoStock.setCreatedAt(new java.util.Date());
-                    nuevoStock.setUpdatedAt(new java.util.Date());
+                    nuevoStock.setCreatedAt(java.time.LocalDateTime.now());
+                    nuevoStock.setUpdatedAt(java.time.LocalDateTime.now());
                     return nuevoStock;
                 });
 
         stock.setCantidad(stock.getCantidad() + cantidad);
-        stock.setUpdatedAt(new java.util.Date());
+        stock.setUpdatedAt(java.time.LocalDateTime.now());
         bodegaProductoRepository.save(stock);
     }
 
@@ -157,7 +157,7 @@ public class EntradaService implements IEntradaService {
         }
 
         stock.setCantidad(nuevaCantidad);
-        stock.setUpdatedAt(new java.util.Date());
+        stock.setUpdatedAt(java.time.LocalDateTime.now());
         bodegaProductoRepository.save(stock);
     }
 

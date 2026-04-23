@@ -1,6 +1,6 @@
 package com.milla.inventario.dto.proveedor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -10,6 +10,6 @@ public class ProveedorDTO {
     private String nombre;
     private String email;
     private String telefono;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

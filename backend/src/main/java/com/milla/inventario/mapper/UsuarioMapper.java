@@ -28,8 +28,8 @@ public class UsuarioMapper {
         user.setPassword(dto.getPassword());
         user.setEnabled(true);
         user.setAccountNonLocked(true);
-        user.setCreatedAt(new java.util.Date());
-        user.setUpdatedAt(new java.util.Date());
+        user.setCreatedAt(java.time.LocalDateTime.now());
+        user.setUpdatedAt(java.time.LocalDateTime.now());
         return user;
     }
 }

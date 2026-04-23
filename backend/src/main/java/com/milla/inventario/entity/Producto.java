@@ -1,7 +1,7 @@
 package com.milla.inventario.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,8 +30,8 @@ public class Producto {
     @JoinColumn(name = "categoriaid")
     private Categoria categoria;
     private BigDecimal precio;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @ManyToMany
     @JoinTable(

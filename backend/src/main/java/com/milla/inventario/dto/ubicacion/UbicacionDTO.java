@@ -1,11 +1,13 @@
 package com.milla.inventario.dto.ubicacion;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
 public class UbicacionDTO {
     private Long id;
     private String municipio;
-    private java.util.Date createdAt;
-    private java.util.Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

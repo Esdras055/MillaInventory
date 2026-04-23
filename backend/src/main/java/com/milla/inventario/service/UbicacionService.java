@@ -53,7 +53,7 @@ public class UbicacionService implements IUbicacionService {
             existing.setMunicipio(request.getMunicipio());
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return UbicacionMapper.toDTO(ubicacionRepository.save(existing));
     }
 

@@ -40,8 +40,8 @@ public class SalidaMapper {
         salida.setBodega(bodega);
         salida.setFecha(dto.getFecha());
         salida.setCantidad(dto.getCantidad());
-        salida.setCreatedAt(new java.util.Date());
-        salida.setUpdatedAt(new java.util.Date());
+        salida.setCreatedAt(java.time.LocalDateTime.now());
+        salida.setUpdatedAt(java.time.LocalDateTime.now());
         return salida;
     }
 }
