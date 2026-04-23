@@ -27,6 +27,21 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "2 - Logout (revocar JWT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -916,6 +931,10 @@
           "if (pm.response.code === 200 && pm.request.url.path.includes('auth/login')) {",
           "    var jsonData = pm.response.json();",
           "    pm.collectionVariables.set('jwtToken', jsonData.token);",
+          "}",
+          "",
+          "if (pm.response.code === 204 && pm.request.url.path.includes('auth/logout')) {",
+          "    pm.collectionVariables.set('jwtToken', '');",
           "}",
           "",
           "if (pm.response.code === 201 && pm.request.url.path.includes('users')) {",

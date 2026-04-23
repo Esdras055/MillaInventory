@@ -1,6 +1,7 @@
 package com.milla.inventario.Controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,13 @@ public class AuthController {
     @Operation(summary = "Iniciar sesion", description = "Autentica un usuario y devuelve un token JWT valido.")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO request) {
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "Cerrar sesion", description = "Revoca el token JWT actual para impedir su reutilizacion.")
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String authorizationHeader) {
+        authService.logout(authorizationHeader);
+        return ResponseEntity.noContent().build();
     }
 }
 //Login

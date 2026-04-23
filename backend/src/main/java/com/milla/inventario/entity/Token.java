@@ -9,6 +9,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "tokens")
 @Data
@@ -23,6 +25,8 @@ public class Token {
     private boolean expired;
 
     private boolean revoked;
+
+    private Date createdAt;
 
     @ManyToOne
     @JoinColumn(name = "userid")

@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.milla.inventario.dto.usuario.AuthResponseDTO;
 import com.milla.inventario.dto.usuario.LoginDTO;
+import com.milla.inventario.entity.Token;
+import com.milla.inventario.entity.Usuario;
+import com.milla.inventario.repository.TokenRepository;
 import com.milla.inventario.repository.UsuarioRepository;
 import com.milla.inventario.security.JwtService;
 
@@ -28,6 +31,7 @@ public class AuthService implements IAuthService {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
     private final UsuarioRepository usuarioRepository;
+    private final TokenRepository tokenRepository;
 
     @Override
     public AuthResponseDTO authenticate(LoginDTO request) {
@@ -47,13 +51,41 @@ public class AuthService implements IAuthService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
 
-        String token = jwtService.generateToken(userDetails);
+        String jwtToken = jwtService.generateToken(userDetails);
 
-        usuarioRepository.findByUsername(request.getUsername()).ifPresent(user -> {
-            user.setLastLogin(new Date());
-            usuarioRepository.save(user);
-        });
+        Usuario usuario = usuarioRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no encontrado"));
 
-        return new AuthResponseDTO(token, request.getUsername());
+        usuario.setLastLogin(new Date());
+        usuarioRepository.save(usuario);
+
+        saveToken(usuario, jwtToken);
+
+        return new AuthResponseDTO(jwtToken, request.getUsername());
+    }
+
+    @Override
+    public void logout(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de autorización requerido");
+        }
+
+        String jwtToken = authorizationHeader.substring(7);
+        Token storedToken = tokenRepository.findByToken(jwtToken)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token no encontrado"));
+
+        storedToken.setExpired(true);
+        storedToken.setRevoked(true);
+        tokenRepository.save(storedToken);
+    }
+
+    private void saveToken(Usuario usuario, String jwtToken) {
+        Token token = new Token();
+        token.setUsuario(usuario);
+        token.setToken(jwtToken);
+        token.setExpired(false);
+        token.setRevoked(false);
+        token.setCreatedAt(new Date());
+        tokenRepository.save(token);
     }
 }
