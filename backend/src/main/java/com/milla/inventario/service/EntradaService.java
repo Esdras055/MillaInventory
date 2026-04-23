@@ -2,6 +2,7 @@ package com.milla.inventario.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -40,13 +41,17 @@ public class EntradaService implements IEntradaService {
     @Override
     public EntradaDTO create(CrearEntradaDTO request) {
         validateCreateRequest(request);
+        Long productoId = Objects.requireNonNull(request.getProductoId());
+        Long proveedorId = Objects.requireNonNull(request.getProveedorId());
+        Long bodegaId = Objects.requireNonNull(request.getBodegaId());
+        Integer cantidad = Objects.requireNonNull(request.getCantidad());
 
-        Producto producto = findProductoOrThrow(request.getProductoId());
-        Proveedor proveedor = findProveedorOrThrow(request.getProveedorId());
-        Bodega bodega = findBodegaOrThrow(request.getBodegaId());
+        Producto producto = findProductoOrThrow(productoId);
+        Proveedor proveedor = findProveedorOrThrow(proveedorId);
+        Bodega bodega = findBodegaOrThrow(bodegaId);
 
-        Entrada entrada = EntradaMapper.toEntity(request, producto, proveedor, bodega);
-        increaseStock(producto, bodega, request.getCantidad());
+        Entrada entrada = Objects.requireNonNull(EntradaMapper.toEntity(request, producto, proveedor, bodega));
+        increaseStock(producto, bodega, cantidad);
 
         return EntradaMapper.toDTO(entradaRepository.save(entrada));
     }
@@ -55,7 +60,7 @@ public class EntradaService implements IEntradaService {
     public EntradaDTO update(Long id, ActualizarEntradaDTO request) {
         validateUpdateRequest(request);
 
-        Entrada existing = entradaRepository.findById(id)
+        Entrada existing = entradaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entrada no encontrada"));
 
         Producto previousProducto = existing.getProducto();
@@ -83,16 +88,16 @@ public class EntradaService implements IEntradaService {
 
     @Override
     public void delete(Long id) {
-        Entrada existing = entradaRepository.findById(id)
+        Entrada existing = entradaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entrada no encontrada"));
 
         decreaseStock(existing.getProducto(), existing.getBodega(), existing.getCantidad());
-        entradaRepository.delete(existing);
+        entradaRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public EntradaDTO findById(Long id) {
-        return entradaRepository.findById(id)
+        return entradaRepository.findById(Objects.requireNonNull(id))
                 .map(EntradaMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entrada no encontrada"));
     }
@@ -157,17 +162,17 @@ public class EntradaService implements IEntradaService {
     }
 
     private Producto findProductoOrThrow(Long productoId) {
-        return productoRepository.findById(productoId)
+        return productoRepository.findById(Objects.requireNonNull(productoId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
     }
 
     private Proveedor findProveedorOrThrow(Long proveedorId) {
-        return proveedorRepository.findById(proveedorId)
+        return proveedorRepository.findById(Objects.requireNonNull(proveedorId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor no encontrado"));
     }
 
     private Bodega findBodegaOrThrow(Long bodegaId) {
-        return bodegaRepository.findById(bodegaId)
+        return bodegaRepository.findById(Objects.requireNonNull(bodegaId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bodega no encontrada"));
     }
 

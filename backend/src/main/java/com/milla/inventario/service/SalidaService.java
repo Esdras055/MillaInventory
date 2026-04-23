@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -36,13 +37,16 @@ public class SalidaService implements ISalidaService {
     @Override
     public SalidaDTO crear(CrearSalidaDTO dto) {
         validateCreateRequest(dto);
+        Long productoId = Objects.requireNonNull(dto.getProductoId());
+        Long bodegaId = Objects.requireNonNull(dto.getBodegaId());
+        Integer cantidad = Objects.requireNonNull(dto.getCantidad());
 
-        Producto producto = findProductoOrThrow(dto.getProductoId());
-        Bodega bodega = findBodegaOrThrow(dto.getBodegaId());
+        Producto producto = findProductoOrThrow(productoId);
+        Bodega bodega = findBodegaOrThrow(bodegaId);
 
-        decreaseStock(producto, bodega, dto.getCantidad());
+        decreaseStock(producto, bodega, cantidad);
 
-        Salidas salida = SalidaMapper.toEntity(dto, producto, bodega);
+        Salidas salida = Objects.requireNonNull(SalidaMapper.toEntity(dto, producto, bodega));
         return SalidaMapper.toDTO(salidaRepository.save(salida));
     }
 
@@ -50,7 +54,7 @@ public class SalidaService implements ISalidaService {
     public SalidaDTO actualizar(Long id, ActualizarSalidaDTO dto) {
         validateUpdateRequest(dto);
 
-        Salidas existing = salidaRepository.findById(id)
+        Salidas existing = salidaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Salida no encontrada"));
 
         Producto previousProducto = existing.getProducto();
@@ -75,7 +79,7 @@ public class SalidaService implements ISalidaService {
 
     @Override
     public SalidaDTO obtenerPorId(Long id) {
-        return salidaRepository.findById(id)
+        return salidaRepository.findById(Objects.requireNonNull(id))
                 .map(SalidaMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Salida no encontrada"));
     }
@@ -103,11 +107,11 @@ public class SalidaService implements ISalidaService {
 
     @Override
     public void eliminar(Long id) {
-        Salidas existing = salidaRepository.findById(id)
+        Salidas existing = salidaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Salida no encontrada"));
 
         increaseStock(existing.getProducto(), existing.getBodega(), existing.getCantidad());
-        salidaRepository.delete(existing);
+        salidaRepository.delete(Objects.requireNonNull(existing));
     }
 
     private void decreaseStock(Producto producto, Bodega bodega, Integer cantidad) {
@@ -142,12 +146,12 @@ public class SalidaService implements ISalidaService {
     }
 
     private Producto findProductoOrThrow(Long productoId) {
-        return productoRepository.findById(productoId)
+        return productoRepository.findById(Objects.requireNonNull(productoId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
     }
 
     private Bodega findBodegaOrThrow(Long bodegaId) {
-        return bodegaRepository.findById(bodegaId)
+        return bodegaRepository.findById(Objects.requireNonNull(bodegaId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bodega no encontrada"));
     }
 

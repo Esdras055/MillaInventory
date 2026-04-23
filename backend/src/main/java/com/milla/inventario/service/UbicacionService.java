@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -32,14 +33,15 @@ public class UbicacionService implements IUbicacionService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El municipio ya existe");
         });
 
-        return UbicacionMapper.toDTO(ubicacionRepository.save(UbicacionMapper.toEntity(request)));
+        Ubicacion ubicacion = Objects.requireNonNull(UbicacionMapper.toEntity(request));
+        return UbicacionMapper.toDTO(ubicacionRepository.save(ubicacion));
     }
 
     @Override
     public UbicacionDTO update(Long id, ActualizarUbicacionDTO request) {
         validateUpdateRequest(request);
 
-        Ubicacion existing = ubicacionRepository.findById(id)
+        Ubicacion existing = ubicacionRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ubicacion no encontrada"));
 
         if (request.getMunicipio() != null && !request.getMunicipio().equals(existing.getMunicipio())) {
@@ -57,14 +59,14 @@ public class UbicacionService implements IUbicacionService {
 
     @Override
     public void delete(Long id) {
-        Ubicacion existing = ubicacionRepository.findById(id)
+        Ubicacion existing = ubicacionRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ubicacion no encontrada"));
-        ubicacionRepository.delete(existing);
+        ubicacionRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public UbicacionDTO findById(Long id) {
-        return ubicacionRepository.findById(id)
+        return ubicacionRepository.findById(Objects.requireNonNull(id))
                 .map(UbicacionMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ubicacion no encontrada"));
     }

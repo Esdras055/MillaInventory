@@ -1,6 +1,5 @@
 package com.milla.inventario.mapper;
 
-import com.milla.inventario.dto.salida.ActualizarSalidaDTO;
 import com.milla.inventario.dto.salida.CrearSalidaDTO;
 import com.milla.inventario.dto.salida.SalidaDTO;
 import com.milla.inventario.entity.Bodega;

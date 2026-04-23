@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -33,24 +34,26 @@ public class BodegaProductoService implements IBodegaProductoService {
     @Override
     public BodegaProductoDTO create(CrearBodegaProductoDTO request) {
         validateCreateRequest(request);
+        Long productoId = Objects.requireNonNull(request.getProductoId());
+        Long bodegaId = Objects.requireNonNull(request.getBodegaId());
 
-        bodegaProductoRepository.findByProductoIdAndBodegaId(request.getProductoId(), request.getBodegaId())
+        bodegaProductoRepository.findByProductoIdAndBodegaId(productoId, bodegaId)
                 .ifPresent(stock -> {
                     throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe stock para ese producto en esa bodega");
                 });
 
-        Producto producto = findProductoOrThrow(request.getProductoId());
-        Bodega bodega = findBodegaOrThrow(request.getBodegaId());
+        Producto producto = findProductoOrThrow(productoId);
+        Bodega bodega = findBodegaOrThrow(bodegaId);
+        BodegaProducto stock = Objects.requireNonNull(BodegaProductoMapper.toEntity(request, producto, bodega));
 
-        return BodegaProductoMapper.toDTO(
-                bodegaProductoRepository.save(BodegaProductoMapper.toEntity(request, producto, bodega)));
+        return BodegaProductoMapper.toDTO(bodegaProductoRepository.save(stock));
     }
 
     @Override
     public BodegaProductoDTO update(Long id, ActualizarStockDTO request) {
         validateUpdateRequest(request);
 
-        BodegaProducto existing = bodegaProductoRepository.findById(id)
+        BodegaProducto existing = bodegaProductoRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Stock no encontrado"));
 
         existing.setCantidad(request.getCantidad());
@@ -61,14 +64,14 @@ public class BodegaProductoService implements IBodegaProductoService {
 
     @Override
     public void delete(Long id) {
-        BodegaProducto existing = bodegaProductoRepository.findById(id)
+        BodegaProducto existing = bodegaProductoRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Stock no encontrado"));
-        bodegaProductoRepository.delete(existing);
+        bodegaProductoRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public BodegaProductoDTO findById(Long id) {
-        return bodegaProductoRepository.findById(id)
+        return bodegaProductoRepository.findById(Objects.requireNonNull(id))
                 .map(BodegaProductoMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Stock no encontrado"));
     }
@@ -95,12 +98,12 @@ public class BodegaProductoService implements IBodegaProductoService {
     }
 
     private Producto findProductoOrThrow(Long productoId) {
-        return productoRepository.findById(productoId)
+        return productoRepository.findById(Objects.requireNonNull(productoId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
     }
 
     private Bodega findBodegaOrThrow(Long bodegaId) {
-        return bodegaRepository.findById(bodegaId)
+        return bodegaRepository.findById(Objects.requireNonNull(bodegaId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bodega no encontrada"));
     }
 

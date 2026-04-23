@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -32,14 +33,15 @@ public class CategoriaService implements ICategoriaService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El nombre de la categoria ya existe");
         });
 
-        return CategoriaMapper.toDTO(categoriaRepository.save(CategoriaMapper.toEntity(request)));
+        Categoria categoria = Objects.requireNonNull(CategoriaMapper.toEntity(request));
+        return CategoriaMapper.toDTO(categoriaRepository.save(categoria));
     }
 
     @Override
     public CategoriaDTO update(Long id, ActualizarCategoriaDTO request) {
         validateUpdateRequest(request);
 
-        Categoria existing = categoriaRepository.findById(id)
+        Categoria existing = categoriaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria no encontrada"));
 
         if (request.getNombre() != null && !request.getNombre().equals(existing.getNombre())) {
@@ -57,14 +59,14 @@ public class CategoriaService implements ICategoriaService {
 
     @Override
     public void delete(Long id) {
-        Categoria existing = categoriaRepository.findById(id)
+        Categoria existing = categoriaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria no encontrada"));
-        categoriaRepository.delete(existing);
+        categoriaRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public CategoriaDTO findById(Long id) {
-        return categoriaRepository.findById(id)
+        return categoriaRepository.findById(Objects.requireNonNull(id))
                 .map(CategoriaMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria no encontrada"));
     }

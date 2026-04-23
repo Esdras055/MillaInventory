@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -32,14 +33,15 @@ public class MarcaService implements IMarcaService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El nombre de la marca ya existe");
         });
 
-        return MarcaMapper.toDTO(marcaRepository.save(MarcaMapper.toEntity(request)));
+        Marca marca = Objects.requireNonNull(MarcaMapper.toEntity(request));
+        return MarcaMapper.toDTO(marcaRepository.save(marca));
     }
 
     @Override
     public MarcaDTO update(Long id, ActualizarMarcaDTO request) {
         validateUpdateRequest(request);
 
-        Marca existing = marcaRepository.findById(id)
+        Marca existing = marcaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca no encontrada"));
 
         if (request.getNombre() != null && !request.getNombre().equals(existing.getNombre())) {
@@ -57,14 +59,14 @@ public class MarcaService implements IMarcaService {
 
     @Override
     public void delete(Long id) {
-        Marca existing = marcaRepository.findById(id)
+        Marca existing = marcaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca no encontrada"));
-        marcaRepository.delete(existing);
+        marcaRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public MarcaDTO findById(Long id) {
-        return marcaRepository.findById(id)
+        return marcaRepository.findById(Objects.requireNonNull(id))
                 .map(MarcaMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca no encontrada"));
     }

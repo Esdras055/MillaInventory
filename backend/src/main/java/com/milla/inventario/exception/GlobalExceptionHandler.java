@@ -1,6 +1,8 @@
 package com.milla.inventario.exception;
 
 
+import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -55,6 +57,6 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<ApiErrorResponse> buildResponse(HttpStatus status, String message, String path) {
         ApiErrorResponse body = ApiErrorResponse.from(status, message, path);
-        return ResponseEntity.status(status).body(body);
+        return ResponseEntity.status(Objects.requireNonNull(status)).body(body);
     }
 }

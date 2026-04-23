@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,15 +38,16 @@ public class ProductoService implements IProductoService {
     @Override
     public ProductoDTO create(CrearProductoDTO request) {
         validateCreateRequest(request);
+        Long categoriaId = Objects.requireNonNull(request.getCategoriaId());
 
         productoRepository.findByNombre(request.getNombre()).ifPresent(producto -> {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El nombre del producto ya existe");
         });
 
-        Categoria categoria = findCategoriaOrThrow(request.getCategoriaId());
+        Categoria categoria = findCategoriaOrThrow(categoriaId);
         Set<Marca> marcas = findMarcasOrThrow(request.getMarcaIds());
 
-        Producto producto = ProductoMapper.toEntity(request, categoria);
+        Producto producto = Objects.requireNonNull(ProductoMapper.toEntity(request, categoria));
         producto.setMarcas(marcas);
 
         return ProductoMapper.toDTO(productoRepository.save(producto));
@@ -55,7 +57,7 @@ public class ProductoService implements IProductoService {
     public ProductoDTO update(Long id, ActualizarProductoDTO request) {
         validateUpdateRequest(request);
 
-        Producto existing = productoRepository.findById(id)
+        Producto existing = productoRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
 
         if (request.getNombre() != null && !request.getNombre().equals(existing.getNombre())) {
@@ -85,14 +87,14 @@ public class ProductoService implements IProductoService {
 
     @Override
     public void delete(Long id) {
-        Producto existing = productoRepository.findById(id)
+        Producto existing = productoRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
-        productoRepository.delete(existing);
+        productoRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public ProductoDTO findById(Long id) {
-        return productoRepository.findById(id)
+        return productoRepository.findById(Objects.requireNonNull(id))
                 .map(ProductoMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
     }
@@ -105,7 +107,7 @@ public class ProductoService implements IProductoService {
     }
 
     private Categoria findCategoriaOrThrow(Long categoriaId) {
-        return categoriaRepository.findById(categoriaId)
+        return categoriaRepository.findById(Objects.requireNonNull(categoriaId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria no encontrada"));
     }
 
