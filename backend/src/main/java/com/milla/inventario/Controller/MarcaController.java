@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,8 @@ public class MarcaController {
     @Operation(summary = "Crear marca", description = "Registra una nueva marca en el sistema.")
     public ResponseEntity<MarcaDTO> create(@Valid @RequestBody CrearMarcaDTO request) {
         MarcaDTO created = marcaService.create(request);
-        return ResponseEntity.created(URI.create("/api/marcas/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/marcas/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping

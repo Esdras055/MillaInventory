@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,8 @@ public class UsuarioController {
     @Operation(summary = "Crear usuario", description = "Registra un nuevo usuario en el sistema.")
     public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody CrearUsuarioDTO request) {
         UsuarioDTO created = usuarioService.create(request);
-        return ResponseEntity.created(URI.create("/api/users/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/users/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping

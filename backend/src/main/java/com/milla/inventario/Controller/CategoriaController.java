@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,8 @@ public class CategoriaController {
     @Operation(summary = "Crear categoria", description = "Registra una nueva categoria en el sistema.")
     public ResponseEntity<CategoriaDTO> create(@Valid @RequestBody CrearCategoriaDTO request) {
         CategoriaDTO created = categoriaService.create(request);
-        return ResponseEntity.created(URI.create("/api/categorias/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/categorias/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping

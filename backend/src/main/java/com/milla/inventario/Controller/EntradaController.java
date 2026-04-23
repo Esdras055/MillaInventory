@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +37,8 @@ public class EntradaController {
     @Operation(summary = "Crear entrada", description = "Registra una entrada de producto y aumenta el stock de la bodega.")
     public ResponseEntity<EntradaDTO> create(@Valid @RequestBody CrearEntradaDTO request) {
         EntradaDTO created = entradaService.create(request);
-        return ResponseEntity.created(URI.create("/api/entradas/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/entradas/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
