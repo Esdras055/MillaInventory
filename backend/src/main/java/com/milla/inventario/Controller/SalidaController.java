@@ -21,6 +21,7 @@ import com.milla.inventario.service.ISalidaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +34,7 @@ public class SalidaController {
 
     @PostMapping
     @Operation(summary = "Crear salida", description = "Registra una salida de producto y disminuye el stock de la bodega.")
-    public ResponseEntity<SalidaDTO> create(@RequestBody CrearSalidaDTO request) {
+    public ResponseEntity<SalidaDTO> create(@Valid @RequestBody CrearSalidaDTO request) {
         SalidaDTO created = salidaService.crear(request);
         return ResponseEntity.created(URI.create("/api/salidas/" + created.getId())).body(created);
     }
@@ -64,7 +65,7 @@ public class SalidaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar salida", description = "Actualiza una salida y reajusta el stock correspondiente.")
-    public ResponseEntity<SalidaDTO> update(@PathVariable Long id, @RequestBody ActualizarSalidaDTO request) {
+    public ResponseEntity<SalidaDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarSalidaDTO request) {
         return ResponseEntity.ok(salidaService.actualizar(id, request));
     }
 

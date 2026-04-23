@@ -21,6 +21,7 @@ import com.milla.inventario.service.IUsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +34,7 @@ public class UsuarioController {
 
     @PostMapping
     @Operation(summary = "Crear usuario", description = "Registra un nuevo usuario en el sistema.")
-    public ResponseEntity<UsuarioDTO> create(@RequestBody CrearUsuarioDTO request) {
+    public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody CrearUsuarioDTO request) {
         UsuarioDTO created = usuarioService.create(request);
         return ResponseEntity.created(URI.create("/api/users/" + created.getId())).body(created);
     }
@@ -52,7 +53,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar usuario", description = "Actualiza la informacion de un usuario existente.")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody ActualizarUsuarioDTO request) {
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarUsuarioDTO request) {
         return ResponseEntity.ok(usuarioService.update(id, request));
     }
 

@@ -21,6 +21,7 @@ import com.milla.inventario.service.ICategoriaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +34,7 @@ public class CategoriaController {
 
     @PostMapping
     @Operation(summary = "Crear categoria", description = "Registra una nueva categoria en el sistema.")
-    public ResponseEntity<CategoriaDTO> create(@RequestBody CrearCategoriaDTO request) {
+    public ResponseEntity<CategoriaDTO> create(@Valid @RequestBody CrearCategoriaDTO request) {
         CategoriaDTO created = categoriaService.create(request);
         return ResponseEntity.created(URI.create("/api/categorias/" + created.getId())).body(created);
     }
@@ -52,7 +53,7 @@ public class CategoriaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar categoria", description = "Actualiza los datos de una categoria existente.")
-    public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @RequestBody ActualizarCategoriaDTO request) {
+    public ResponseEntity<CategoriaDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarCategoriaDTO request) {
         return ResponseEntity.ok(categoriaService.update(id, request));
     }
 

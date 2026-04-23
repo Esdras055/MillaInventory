@@ -13,6 +13,7 @@ import com.milla.inventario.service.IAuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesion", description = "Autentica un usuario y devuelve un token JWT valido.")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO request) {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 

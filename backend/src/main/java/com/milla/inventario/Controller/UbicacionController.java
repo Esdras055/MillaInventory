@@ -21,6 +21,7 @@ import com.milla.inventario.service.IUbicacionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +34,7 @@ public class UbicacionController {
 
     @PostMapping
     @Operation(summary = "Crear ubicacion", description = "Registra una nueva ubicacion en el sistema.")
-    public ResponseEntity<UbicacionDTO> create(@RequestBody CrearUbicacionDTO request) {
+    public ResponseEntity<UbicacionDTO> create(@Valid @RequestBody CrearUbicacionDTO request) {
         UbicacionDTO created = ubicacionService.create(request);
         return ResponseEntity.created(URI.create("/api/ubicaciones/" + created.getId())).body(created);
     }
@@ -52,7 +53,7 @@ public class UbicacionController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar ubicacion", description = "Actualiza los datos de una ubicacion existente.")
-    public ResponseEntity<UbicacionDTO> update(@PathVariable Long id, @RequestBody ActualizarUbicacionDTO request) {
+    public ResponseEntity<UbicacionDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarUbicacionDTO request) {
         return ResponseEntity.ok(ubicacionService.update(id, request));
     }
 

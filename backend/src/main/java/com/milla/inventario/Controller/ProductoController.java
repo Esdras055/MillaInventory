@@ -21,6 +21,7 @@ import com.milla.inventario.service.IProductoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +34,7 @@ public class ProductoController {
 
     @PostMapping
     @Operation(summary = "Crear producto", description = "Registra un nuevo producto en el sistema.")
-    public ResponseEntity<ProductoDTO> create(@RequestBody CrearProductoDTO request) {
+    public ResponseEntity<ProductoDTO> create(@Valid @RequestBody CrearProductoDTO request) {
         ProductoDTO created = productoService.create(request);
         return ResponseEntity.created(URI.create("/api/productos/" + created.getId())).body(created);
     }
@@ -52,7 +53,7 @@ public class ProductoController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar producto", description = "Actualiza los datos de un producto existente.")
-    public ResponseEntity<ProductoDTO> update(@PathVariable Long id, @RequestBody ActualizarProductoDTO request) {
+    public ResponseEntity<ProductoDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarProductoDTO request) {
         return ResponseEntity.ok(productoService.update(id, request));
     }
 
