@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.milla.inventario.dto.common.ApiMessageResponse;
+import com.milla.inventario.dto.rol.RolDTO;
 import com.milla.inventario.dto.usuario.ActualizarUsuarioDTO;
+import com.milla.inventario.dto.usuario.AsignarRolesUsuarioDTO;
 import com.milla.inventario.dto.usuario.CrearUsuarioDTO;
 import com.milla.inventario.dto.usuario.UsuarioDTO;
 import com.milla.inventario.service.IUsuarioService;
@@ -64,5 +66,32 @@ public class UsuarioController {
     public ResponseEntity<ApiMessageResponse> delete(@PathVariable Long id) {
         usuarioService.delete(id);
         return ResponseEntity.ok(new ApiMessageResponse("Usuario eliminado correctamente"));
+    }
+
+    @GetMapping("/{id}/roles")
+    @Operation(summary = "Listar roles del usuario", description = "Obtiene los roles asignados a un usuario.")
+    public ResponseEntity<List<RolDTO>> getRoles(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.findRolesByUserId(id));
+    }
+
+    @PutMapping("/{id}/roles")
+    @Operation(summary = "Reemplazar roles del usuario", description = "Reemplaza todos los roles asignados a un usuario.")
+    public ResponseEntity<List<RolDTO>> replaceRoles(
+            @PathVariable Long id,
+            @Valid @RequestBody AsignarRolesUsuarioDTO request) {
+        return ResponseEntity.ok(usuarioService.replaceRoles(id, request));
+    }
+
+    @PostMapping("/{id}/roles/{roleId}")
+    @Operation(summary = "Agregar rol al usuario", description = "Asigna un rol especifico a un usuario.")
+    public ResponseEntity<List<RolDTO>> addRole(@PathVariable Long id, @PathVariable Long roleId) {
+        return ResponseEntity.ok(usuarioService.addRole(id, roleId));
+    }
+
+    @DeleteMapping("/{id}/roles/{roleId}")
+    @Operation(summary = "Quitar rol del usuario", description = "Elimina un rol especifico asignado a un usuario.")
+    public ResponseEntity<ApiMessageResponse> removeRole(@PathVariable Long id, @PathVariable Long roleId) {
+        usuarioService.removeRole(id, roleId);
+        return ResponseEntity.ok(new ApiMessageResponse("Rol removido correctamente"));
     }
 }

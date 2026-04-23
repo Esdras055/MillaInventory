@@ -33,6 +33,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/auth/logout").authenticated()
                 .requestMatchers("/api/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/users/*/roles").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/users/*/roles").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/users/*/roles/*").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos", "/api/bodegas-productos", "/api/entradas", "/api/salidas").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**", "/api/bodegas-productos/**", "/api/entradas/**", "/api/salidas/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

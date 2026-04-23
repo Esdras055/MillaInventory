@@ -63,7 +63,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Nuevo Usuario\",\n  \"username\": \"usuario_nuevo@test.com\",\n  \"password\": \"clave123\"\n}"
+              "raw": "{\n  \"name\": \"Nuevo Usuario\",\n  \"username\": \"usuario_nuevo@test.com\",\n  \"password\": \"clave123\",\n  \"roleIds\": [{{roleId}}]\n}"
             }
           },
           "response": []
@@ -129,6 +129,71 @@
               "raw": "{{baseUrl}}/api/users/{{userId}}",
               "host": ["{{baseUrl}}"],
               "path": ["api", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Listar roles del usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 - Reemplazar roles del usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleIds\": [{{roleId}}]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8 - Agregar rol al usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles", "{{roleId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9 - Quitar rol del usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles", "{{roleId}}"]
             }
           },
           "response": []
@@ -1092,6 +1157,7 @@
     { "key": "baseUrl", "value": "http://localhost:8080" },
     { "key": "jwtToken", "value": "" },
     { "key": "userId", "value": "1" },
+    { "key": "roleId", "value": "2" },
     { "key": "ubicacionId", "value": "1" },
     { "key": "categoriaId", "value": "1" },
     { "key": "marcaId", "value": "1" },
