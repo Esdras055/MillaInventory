@@ -121,7 +121,8 @@ public class UsuarioService implements IUsuarioService {
 
         List<Long> roleIds = normalizeRoleIds(request.getRoleIds());
         findRolesOrThrow(roleIds);
-        usuarioRolRepository.deleteAll(usuarioRolRepository.findByUserId(id));
+        List<UsuarioRol> currentRoles = Objects.requireNonNull(usuarioRolRepository.findByUserId(id));
+        usuarioRolRepository.deleteAll(currentRoles);
         assignRoles(id, roleIds);
         return findRolesByUserId(id);
     }
