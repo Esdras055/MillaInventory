@@ -2,7 +2,7 @@ package com.milla.inventario.dto.entrada;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -18,6 +18,6 @@ public class EntradaDTO {
     private LocalDate fecha;
     private BigDecimal precioAdquisicion;
     private Integer cantidad;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

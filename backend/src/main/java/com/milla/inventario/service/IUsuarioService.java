@@ -2,7 +2,9 @@ package com.milla.inventario.service;
 
 import java.util.List;
 
+import com.milla.inventario.dto.rol.RolDTO;
 import com.milla.inventario.dto.usuario.ActualizarUsuarioDTO;
+import com.milla.inventario.dto.usuario.AsignarRolesUsuarioDTO;
 import com.milla.inventario.dto.usuario.CrearUsuarioDTO;
 import com.milla.inventario.dto.usuario.UsuarioDTO;
 
@@ -12,4 +14,8 @@ public interface IUsuarioService {
     void delete(Long id);
     UsuarioDTO findById(Long id);
     List<UsuarioDTO> findAll();
+    List<RolDTO> findRolesByUserId(Long userId);
+    List<RolDTO> replaceRoles(Long userId, AsignarRolesUsuarioDTO request);
+    List<RolDTO> addRole(Long userId, Long roleId);
+    void removeRole(Long userId, Long roleId);
 }

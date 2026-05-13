@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.milla.inventario.service.IBodegaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +35,10 @@ public class BodegaController {
 
     @PostMapping
     @Operation(summary = "Crear bodega", description = "Registra una nueva bodega asociada a una ubicacion.")
-    public ResponseEntity<BodegaDTO> create(@RequestBody CrearBodegaDTO request) {
+    public ResponseEntity<BodegaDTO> create(@Valid @RequestBody CrearBodegaDTO request) {
         BodegaDTO created = bodegaService.create(request);
-        return ResponseEntity.created(URI.create("/api/bodegas/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/bodegas/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -52,7 +55,7 @@ public class BodegaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar bodega", description = "Actualiza los datos de una bodega existente.")
-    public ResponseEntity<BodegaDTO> update(@PathVariable Long id, @RequestBody ActualizarBodegaDTO request) {
+    public ResponseEntity<BodegaDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarBodegaDTO request) {
         return ResponseEntity.ok(bodegaService.update(id, request));
     }
 

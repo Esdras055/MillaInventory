@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.milla.inventario.service.IEntradaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +35,10 @@ public class EntradaController {
 
     @PostMapping
     @Operation(summary = "Crear entrada", description = "Registra una entrada de producto y aumenta el stock de la bodega.")
-    public ResponseEntity<EntradaDTO> create(@RequestBody CrearEntradaDTO request) {
+    public ResponseEntity<EntradaDTO> create(@Valid @RequestBody CrearEntradaDTO request) {
         EntradaDTO created = entradaService.create(request);
-        return ResponseEntity.created(URI.create("/api/entradas/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/entradas/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -70,7 +73,7 @@ public class EntradaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar entrada", description = "Actualiza una entrada y reajusta el stock correspondiente.")
-    public ResponseEntity<EntradaDTO> update(@PathVariable Long id, @RequestBody ActualizarEntradaDTO request) {
+    public ResponseEntity<EntradaDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarEntradaDTO request) {
         return ResponseEntity.ok(entradaService.update(id, request));
     }
 

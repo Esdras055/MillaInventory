@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -29,14 +30,15 @@ public class ProveedorService implements IProveedorService {
         validateCreateRequest(request);
         validateUniqueCreate(request);
 
-        return ProveedorMapper.toDTO(proveedorRepository.save(ProveedorMapper.toEntity(request)));
+        Proveedor proveedor = Objects.requireNonNull(ProveedorMapper.toEntity(request));
+        return ProveedorMapper.toDTO(proveedorRepository.save(proveedor));
     }
 
     @Override
     public ProveedorDTO update(Long id, ActualizarProveedorDTO request) {
         validateUpdateRequest(request);
 
-        Proveedor existing = proveedorRepository.findById(id)
+        Proveedor existing = proveedorRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor no encontrado"));
 
         if (request.getNombre() != null && !request.getNombre().equals(existing.getNombre())) {
@@ -66,20 +68,20 @@ public class ProveedorService implements IProveedorService {
             existing.setTelefono(request.getTelefono());
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return ProveedorMapper.toDTO(proveedorRepository.save(existing));
     }
 
     @Override
     public void delete(Long id) {
-        Proveedor existing = proveedorRepository.findById(id)
+        Proveedor existing = proveedorRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor no encontrado"));
-        proveedorRepository.delete(existing);
+        proveedorRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public ProveedorDTO findById(Long id) {
-        return proveedorRepository.findById(id)
+        return proveedorRepository.findById(Objects.requireNonNull(id))
                 .map(ProveedorMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor no encontrado"));
     }

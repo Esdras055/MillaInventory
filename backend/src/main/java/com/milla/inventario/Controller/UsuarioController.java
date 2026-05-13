@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.milla.inventario.dto.common.ApiMessageResponse;
+import com.milla.inventario.dto.rol.RolDTO;
 import com.milla.inventario.dto.usuario.ActualizarUsuarioDTO;
+import com.milla.inventario.dto.usuario.AsignarRolesUsuarioDTO;
 import com.milla.inventario.dto.usuario.CrearUsuarioDTO;
 import com.milla.inventario.dto.usuario.UsuarioDTO;
 import com.milla.inventario.service.IUsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +37,10 @@ public class UsuarioController {
 
     @PostMapping
     @Operation(summary = "Crear usuario", description = "Registra un nuevo usuario en el sistema.")
-    public ResponseEntity<UsuarioDTO> create(@RequestBody CrearUsuarioDTO request) {
+    public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody CrearUsuarioDTO request) {
         UsuarioDTO created = usuarioService.create(request);
-        return ResponseEntity.created(URI.create("/api/users/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/users/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -52,7 +57,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar usuario", description = "Actualiza la informacion de un usuario existente.")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody ActualizarUsuarioDTO request) {
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarUsuarioDTO request) {
         return ResponseEntity.ok(usuarioService.update(id, request));
     }
 
@@ -61,5 +66,32 @@ public class UsuarioController {
     public ResponseEntity<ApiMessageResponse> delete(@PathVariable Long id) {
         usuarioService.delete(id);
         return ResponseEntity.ok(new ApiMessageResponse("Usuario eliminado correctamente"));
+    }
+
+    @GetMapping("/{id}/roles")
+    @Operation(summary = "Listar roles del usuario", description = "Obtiene los roles asignados a un usuario.")
+    public ResponseEntity<List<RolDTO>> getRoles(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.findRolesByUserId(id));
+    }
+
+    @PutMapping("/{id}/roles")
+    @Operation(summary = "Reemplazar roles del usuario", description = "Reemplaza todos los roles asignados a un usuario.")
+    public ResponseEntity<List<RolDTO>> replaceRoles(
+            @PathVariable Long id,
+            @Valid @RequestBody AsignarRolesUsuarioDTO request) {
+        return ResponseEntity.ok(usuarioService.replaceRoles(id, request));
+    }
+
+    @PostMapping("/{id}/roles/{roleId}")
+    @Operation(summary = "Agregar rol al usuario", description = "Asigna un rol especifico a un usuario.")
+    public ResponseEntity<List<RolDTO>> addRole(@PathVariable Long id, @PathVariable Long roleId) {
+        return ResponseEntity.ok(usuarioService.addRole(id, roleId));
+    }
+
+    @DeleteMapping("/{id}/roles/{roleId}")
+    @Operation(summary = "Quitar rol del usuario", description = "Elimina un rol especifico asignado a un usuario.")
+    public ResponseEntity<ApiMessageResponse> removeRole(@PathVariable Long id, @PathVariable Long roleId) {
+        usuarioService.removeRole(id, roleId);
+        return ResponseEntity.ok(new ApiMessageResponse("Rol removido correctamente"));
     }
 }

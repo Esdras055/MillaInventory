@@ -16,5 +16,9 @@ public interface ISalidaService {
 
     List<SalidaDTO> listar();
 
+    List<SalidaDTO> listarPorProducto(Long productoId);
+
+    List<SalidaDTO> listarPorBodega(Long bodegaId);
+
     void eliminar(Long id);
 }

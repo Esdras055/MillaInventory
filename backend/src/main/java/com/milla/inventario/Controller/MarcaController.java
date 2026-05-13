@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.milla.inventario.service.IMarcaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +35,10 @@ public class MarcaController {
 
     @PostMapping
     @Operation(summary = "Crear marca", description = "Registra una nueva marca en el sistema.")
-    public ResponseEntity<MarcaDTO> create(@RequestBody CrearMarcaDTO request) {
+    public ResponseEntity<MarcaDTO> create(@Valid @RequestBody CrearMarcaDTO request) {
         MarcaDTO created = marcaService.create(request);
-        return ResponseEntity.created(URI.create("/api/marcas/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/marcas/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -52,7 +55,7 @@ public class MarcaController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar marca", description = "Actualiza los datos de una marca existente.")
-    public ResponseEntity<MarcaDTO> update(@PathVariable Long id, @RequestBody ActualizarMarcaDTO request) {
+    public ResponseEntity<MarcaDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarMarcaDTO request) {
         return ResponseEntity.ok(marcaService.update(id, request));
     }
 

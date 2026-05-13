@@ -14,7 +14,7 @@ public class RolMapper {
 
         RolDTO dto = new RolDTO();
         dto.setId(rol.getId());
-        dto.setNombre(rol.getNombre());
+        dto.setNombre(rol.getName());
         return dto;
     }
 
@@ -24,7 +24,7 @@ public class RolMapper {
         }
 
         Rol rol = new Rol();
-        rol.setNombre(dto.getNombre());
+        rol.setName(dto.getNombre());
         return rol;
     }
 
@@ -33,6 +33,6 @@ public class RolMapper {
             return;
         }
 
-        rol.setNombre(dto.getNombre());
+        rol.setName(dto.getNombre());
     }
 }

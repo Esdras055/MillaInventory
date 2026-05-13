@@ -2,7 +2,7 @@
   "info": {
     "name": "MillaInventory API",
     "_postman_id": "abf8ff22-1234-5678-90ab-cdef12345678",
-    "description": "Coleccion organizada por modulos para autenticacion, usuarios, categorias, marcas, proveedores, productos, bodegas, stock y ubicaciones.",
+    "description": "Coleccion organizada por modulos para autenticacion, usuarios, categorias, marcas, proveedores, productos, bodegas, stock, entradas, salidas y ubicaciones.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -27,6 +27,21 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "2 - Logout (revocar JWT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -48,7 +63,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Nuevo Usuario\",\n  \"username\": \"usuario_nuevo@test.com\",\n  \"password\": \"clave123\"\n}"
+              "raw": "{\n  \"name\": \"Nuevo Usuario\",\n  \"username\": \"usuario_nuevo@test.com\",\n  \"password\": \"clave123\",\n  \"roleIds\": [{{roleId}}]\n}"
             }
           },
           "response": []
@@ -114,6 +129,71 @@
               "raw": "{{baseUrl}}/api/users/{{userId}}",
               "host": ["{{baseUrl}}"],
               "path": ["api", "users", "{{userId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Listar roles del usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 - Reemplazar roles del usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleIds\": [{{roleId}}]\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8 - Agregar rol al usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles", "{{roleId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9 - Quitar rol del usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}/roles/{{roleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "roles", "{{roleId}}"]
             }
           },
           "response": []
@@ -779,6 +859,228 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Gestion de salidas",
+      "item": [
+        {
+          "name": "1 - Crear salida",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoId}},\n  \"bodegaId\": {{bodegaId}},\n  \"fecha\": \"2026-04-22\",\n  \"cantidad\": 1\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Listar salidas",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Ver salida por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/{{salidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "{{salidaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Listar salidas por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Listar salidas por bodega",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/bodega/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "bodega", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Actualizar salida",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/{{salidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "{{salidaId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoId}},\n  \"bodegaId\": {{bodegaId}},\n  \"fecha\": \"2026-04-22\",\n  \"cantidad\": 2\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7 - Borrar salida",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/salidas/{{salidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "salidas", "{{salidaId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestion de reportes",
+      "item": [
+        {
+          "name": "1 - Resumen general",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/resumen",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "resumen"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2 - Stock por bodega",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/stock/bodega/{{bodegaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "stock", "bodega", "{{bodegaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3 - Stock por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/stock/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "stock", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4 - Productos bajo stock",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/productos-bajo-stock?minimo=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "productos-bajo-stock"],
+              "query": [
+                { "key": "minimo", "value": "5" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5 - Movimientos por producto",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/movimientos/producto/{{productoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "movimientos", "producto", "{{productoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6 - Movimientos por rango",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/reportes/movimientos?fechaInicio=2026-04-01&fechaFin=2026-04-30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reportes", "movimientos"],
+              "query": [
+                { "key": "fechaInicio", "value": "2026-04-01" },
+                { "key": "fechaFin", "value": "2026-04-30" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -796,6 +1098,10 @@
           "if (pm.response.code === 200 && pm.request.url.path.includes('auth/login')) {",
           "    var jsonData = pm.response.json();",
           "    pm.collectionVariables.set('jwtToken', jsonData.token);",
+          "}",
+          "",
+          "if (pm.response.code === 204 && pm.request.url.path.includes('auth/logout')) {",
+          "    pm.collectionVariables.set('jwtToken', '');",
           "}",
           "",
           "if (pm.response.code === 201 && pm.request.url.path.includes('users')) {",
@@ -836,6 +1142,11 @@
           "if (pm.response.code === 201 && pm.request.url.path.includes('bodegas-productos')) {",
           "    var bodegaProductoData = pm.response.json();",
           "    pm.collectionVariables.set('bodegaProductoId', bodegaProductoData.id);",
+          "}",
+          "",
+          "if (pm.response.code === 201 && pm.request.url.path.includes('salidas')) {",
+          "    var salidaData = pm.response.json();",
+          "    pm.collectionVariables.set('salidaId', salidaData.id);",
           "}"
         ],
         "type": "text/javascript"
@@ -846,12 +1157,14 @@
     { "key": "baseUrl", "value": "http://localhost:8080" },
     { "key": "jwtToken", "value": "" },
     { "key": "userId", "value": "1" },
+    { "key": "roleId", "value": "2" },
     { "key": "ubicacionId", "value": "1" },
     { "key": "categoriaId", "value": "1" },
     { "key": "marcaId", "value": "1" },
     { "key": "proveedorId", "value": "1" },
     { "key": "productoId", "value": "1" },
     { "key": "bodegaId", "value": "1" },
-    { "key": "bodegaProductoId", "value": "1" }
+    { "key": "bodegaProductoId", "value": "1" },
+    { "key": "salidaId", "value": "1" }
   ]
 }

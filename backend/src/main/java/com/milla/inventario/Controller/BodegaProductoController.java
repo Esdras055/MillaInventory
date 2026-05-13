@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.milla.inventario.service.IBodegaProductoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +35,10 @@ public class BodegaProductoController {
 
     @PostMapping
     @Operation(summary = "Crear stock", description = "Registra la cantidad inicial de un producto en una bodega.")
-    public ResponseEntity<BodegaProductoDTO> create(@RequestBody CrearBodegaProductoDTO request) {
+    public ResponseEntity<BodegaProductoDTO> create(@Valid @RequestBody CrearBodegaProductoDTO request) {
         BodegaProductoDTO created = bodegaProductoService.create(request);
-        return ResponseEntity.created(URI.create("/api/bodegas-productos/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/bodegas-productos/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -64,7 +67,7 @@ public class BodegaProductoController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar stock", description = "Actualiza la cantidad de un producto en una bodega.")
-    public ResponseEntity<BodegaProductoDTO> update(@PathVariable Long id, @RequestBody ActualizarStockDTO request) {
+    public ResponseEntity<BodegaProductoDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarStockDTO request) {
         return ResponseEntity.ok(bodegaProductoService.update(id, request));
     }
 

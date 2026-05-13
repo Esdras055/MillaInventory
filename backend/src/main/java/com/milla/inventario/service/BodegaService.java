@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -30,18 +31,19 @@ public class BodegaService implements IBodegaService {
     @Override
     public BodegaDTO create(CrearBodegaDTO request) {
         validateCreateRequest(request);
+        Long ubicacionId = Objects.requireNonNull(request.getUbicacionId());
 
         bodegaRepository.findByNombre(request.getNombre()).ifPresent(bodega -> {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El nombre de la bodega ya existe");
         });
 
-        Ubicacion ubicacion = findUbicacionOrThrow(request.getUbicacionId());
+        Ubicacion ubicacion = findUbicacionOrThrow(ubicacionId);
 
         Bodega bodega = new Bodega();
         bodega.setNombre(request.getNombre());
         bodega.setUbicacion(ubicacion);
-        bodega.setCreatedAt(new java.util.Date());
-        bodega.setUpdatedAt(new java.util.Date());
+        bodega.setCreatedAt(java.time.LocalDateTime.now());
+        bodega.setUpdatedAt(java.time.LocalDateTime.now());
 
         return BodegaMapper.toDTO(bodegaRepository.save(bodega));
     }
@@ -50,7 +52,7 @@ public class BodegaService implements IBodegaService {
     public BodegaDTO update(Long id, ActualizarBodegaDTO request) {
         validateUpdateRequest(request);
 
-        Bodega existing = bodegaRepository.findById(id)
+        Bodega existing = bodegaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bodega no encontrada"));
 
         if (request.getNombre() != null && !request.getNombre().equals(existing.getNombre())) {
@@ -66,20 +68,20 @@ public class BodegaService implements IBodegaService {
             existing.setUbicacion(findUbicacionOrThrow(request.getUbicacionId()));
         }
 
-        existing.setUpdatedAt(new java.util.Date());
+        existing.setUpdatedAt(java.time.LocalDateTime.now());
         return BodegaMapper.toDTO(bodegaRepository.save(existing));
     }
 
     @Override
     public void delete(Long id) {
-        Bodega existing = bodegaRepository.findById(id)
+        Bodega existing = bodegaRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bodega no encontrada"));
-        bodegaRepository.delete(existing);
+        bodegaRepository.delete(Objects.requireNonNull(existing));
     }
 
     @Override
     public BodegaDTO findById(Long id) {
-        return bodegaRepository.findById(id)
+        return bodegaRepository.findById(Objects.requireNonNull(id))
                 .map(BodegaMapper::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bodega no encontrada"));
     }
@@ -92,7 +94,7 @@ public class BodegaService implements IBodegaService {
     }
 
     private Ubicacion findUbicacionOrThrow(Long ubicacionId) {
-        return ubicacionRepository.findById(ubicacionId)
+        return ubicacionRepository.findById(Objects.requireNonNull(ubicacionId))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ubicacion no encontrada"));
     }
 

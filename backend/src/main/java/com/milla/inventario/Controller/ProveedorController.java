@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.milla.inventario.service.IProveedorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +35,10 @@ public class ProveedorController {
 
     @PostMapping
     @Operation(summary = "Crear proveedor", description = "Registra un nuevo proveedor en el sistema.")
-    public ResponseEntity<ProveedorDTO> create(@RequestBody CrearProveedorDTO request) {
+    public ResponseEntity<ProveedorDTO> create(@Valid @RequestBody CrearProveedorDTO request) {
         ProveedorDTO created = proveedorService.create(request);
-        return ResponseEntity.created(URI.create("/api/proveedores/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/proveedores/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -52,7 +55,7 @@ public class ProveedorController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar proveedor", description = "Actualiza los datos de un proveedor existente.")
-    public ResponseEntity<ProveedorDTO> update(@PathVariable Long id, @RequestBody ActualizarProveedorDTO request) {
+    public ResponseEntity<ProveedorDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarProveedorDTO request) {
         return ResponseEntity.ok(proveedorService.update(id, request));
     }
 

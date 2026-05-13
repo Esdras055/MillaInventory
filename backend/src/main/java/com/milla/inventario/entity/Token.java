@@ -9,8 +9,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "token")
+@Table(name = "tokens")
 @Data
 public class Token {
 
@@ -24,7 +26,9 @@ public class Token {
 
     private boolean revoked;
 
+    private LocalDateTime createdAt;
+
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "userid")
     private Usuario usuario;
 }

@@ -22,8 +22,8 @@ public class UbicacionMapper {
 
         Ubicacion ubicacion = new Ubicacion();
         ubicacion.setMunicipio(dto.getMunicipio());
-        ubicacion.setCreatedAt(new java.util.Date());
-        ubicacion.setUpdatedAt(new java.util.Date());
+        ubicacion.setCreatedAt(java.time.LocalDateTime.now());
+        ubicacion.setUpdatedAt(java.time.LocalDateTime.now());
         return ubicacion;
     }
 }

@@ -1,6 +1,6 @@
 package com.milla.inventario.dto.usuario;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class UsuarioDTO {
     private String username;
     private boolean enabled;
     private boolean accountNonLocked;
-    private Date createdAt;
-    private Date updatedAt;
-    private Date lastLogin;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime lastLogin;
 }

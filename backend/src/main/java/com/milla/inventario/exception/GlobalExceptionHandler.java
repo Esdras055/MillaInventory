@@ -1,9 +1,12 @@
 package com.milla.inventario.exception;
 
 
+import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +35,18 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, "El cuerpo de la solicitud es invalido", request.getRequestURI());
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiErrorResponse> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request
+    ) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .findFirst()
+                .orElse("La solicitud contiene datos invalidos");
+        return buildResponse(HttpStatus.BAD_REQUEST, message, request.getRequestURI());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGenericException(
             Exception ex,
@@ -42,6 +57,6 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<ApiErrorResponse> buildResponse(HttpStatus status, String message, String path) {
         ApiErrorResponse body = ApiErrorResponse.from(status, message, path);
-        return ResponseEntity.status(status).body(body);
+        return ResponseEntity.status(Objects.requireNonNull(status)).body(body);
     }
 }

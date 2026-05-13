@@ -22,8 +22,8 @@ public class MarcaMapper {
 
         Marca marca = new Marca();
         marca.setNombre(dto.getNombre());
-        marca.setCreatedAt(new java.util.Date());
-        marca.setUpdatedAt(new java.util.Date());
+        marca.setCreatedAt(java.time.LocalDateTime.now());
+        marca.setUpdatedAt(java.time.LocalDateTime.now());
         return marca;
     }
 }

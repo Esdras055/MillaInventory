@@ -2,6 +2,7 @@ package com.milla.inventario.Controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import com.milla.inventario.service.IUbicacionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,9 +35,10 @@ public class UbicacionController {
 
     @PostMapping
     @Operation(summary = "Crear ubicacion", description = "Registra una nueva ubicacion en el sistema.")
-    public ResponseEntity<UbicacionDTO> create(@RequestBody CrearUbicacionDTO request) {
+    public ResponseEntity<UbicacionDTO> create(@Valid @RequestBody CrearUbicacionDTO request) {
         UbicacionDTO created = ubicacionService.create(request);
-        return ResponseEntity.created(URI.create("/api/ubicaciones/" + created.getId())).body(created);
+        URI location = Objects.requireNonNull(URI.create("/api/ubicaciones/" + created.getId()));
+        return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping
@@ -52,7 +55,7 @@ public class UbicacionController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar ubicacion", description = "Actualiza los datos de una ubicacion existente.")
-    public ResponseEntity<UbicacionDTO> update(@PathVariable Long id, @RequestBody ActualizarUbicacionDTO request) {
+    public ResponseEntity<UbicacionDTO> update(@PathVariable Long id, @Valid @RequestBody ActualizarUbicacionDTO request) {
         return ResponseEntity.ok(ubicacionService.update(id, request));
     }
 

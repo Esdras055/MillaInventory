@@ -35,8 +35,8 @@ public class ProductoMapper {
         producto.setNombre(dto.getNombre());
         producto.setCategoria(categoria);
         producto.setPrecio(dto.getPrecio());
-        producto.setCreatedAt(new java.util.Date());
-        producto.setUpdatedAt(new java.util.Date());
+        producto.setCreatedAt(java.time.LocalDateTime.now());
+        producto.setUpdatedAt(java.time.LocalDateTime.now());
         return producto;
     }
 }
