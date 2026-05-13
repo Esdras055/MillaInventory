@@ -61,7 +61,7 @@ public class AuthService implements IAuthService {
 
         saveToken(usuario, jwtToken);
 
-        return new AuthResponseDTO(jwtToken, request.getUsername());
+        return new AuthResponseDTO(jwtToken, request.getUsername(), usuario.getId());
     }
 
     @Override
