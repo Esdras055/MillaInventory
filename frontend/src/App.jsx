@@ -1,15 +1,87 @@
-//import { useState } from 'react'
-//import { BrowserRouter } from "react-router-dom";
-import './App.css'
+import { Navigate, Route, Routes } from "react-router-dom";
+import AppLayout from "./components/AppLayout";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import DashboardPage from "./pages/DashboardPage";
+import LoginPage from "./pages/LoginPage";
+import ModulePage from "./pages/ModulePage";
+import "./App.css";
 
 function App() {
-  return (    
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Tailwind funcionando
-      </h1>
-    </div>
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/productos"
+            element={
+              <ModulePage
+                title="Productos"
+                description="Gestion de productos del inventario."
+              />
+            }
+          />
+          <Route
+            path="/bodegas"
+            element={
+              <ModulePage title="Bodegas" description="Gestion de bodegas disponibles." />
+            }
+          />
+          <Route
+            path="/categorias"
+            element={
+              <ModulePage
+                title="Categorias"
+                description="Gestion de categorias de productos."
+              />
+            }
+          />
+          <Route
+            path="/marcas"
+            element={<ModulePage title="Marcas" description="Gestion de marcas." />}
+          />
+          <Route
+            path="/proveedores"
+            element={
+              <ModulePage
+                title="Proveedores"
+                description="Gestion de proveedores del inventario."
+              />
+            }
+          />
+          <Route
+            path="/entradas"
+            element={
+              <ModulePage
+                title="Entradas"
+                description="Registro y consulta de entradas de inventario."
+              />
+            }
+          />
+          <Route
+            path="/salidas"
+            element={
+              <ModulePage
+                title="Salidas"
+                description="Registro y consulta de salidas de inventario."
+              />
+            }
+          />
+          <Route
+            path="/reportes"
+            element={
+              <ModulePage
+                title="Reportes"
+                description="Resumenes y reportes del estado del inventario."
+              />
+            }
+          />
+        </Route>
+      </Route>
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
   );
 }
 
-export default App
+export default App;

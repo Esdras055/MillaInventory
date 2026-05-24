@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.milla.inventario.dto.usuario.AuthResponseDTO;
+import com.milla.inventario.dto.usuario.CrearUsuarioDTO;
 import com.milla.inventario.dto.usuario.LoginDTO;
+import com.milla.inventario.dto.usuario.UsuarioDTO;
 import com.milla.inventario.service.IAuthService;
+import com.milla.inventario.service.IUsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,11 +26,19 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final IAuthService authService;
+    private final IUsuarioService usuarioService;
 
     @PostMapping("/login")
     @Operation(summary = "Iniciar sesion", description = "Autentica un usuario y devuelve un token JWT valido.")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO request) {
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/register")
+    @Operation(summary = "Registrar usuario", description = "Registra un usuario con el rol por defecto del sistema.")
+    public ResponseEntity<UsuarioDTO> register(@Valid @RequestBody CrearUsuarioDTO request) {
+        request.setRoleIds(null);
+        return ResponseEntity.ok(usuarioService.create(request));
     }
 
     @PostMapping("/logout")
