@@ -1,4 +1,10 @@
 import axios from "axios";
+import {
+  clearStoredAuth,
+  getStoredToken,
+  isTokenExpired,
+  notifyUnauthorized,
+} from "../utils/authStorage";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080/api",
@@ -8,9 +14,15 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authToken");
+  const token = getStoredToken();
 
   if (token) {
+    if (isTokenExpired(token)) {
+      clearStoredAuth();
+      notifyUnauthorized();
+      return Promise.reject(new Error("La sesion ha expirado."));
+    }
+
     config.headers.Authorization = `Bearer ${token}`;
   }
 
@@ -21,8 +33,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("authUser");
+      clearStoredAuth();
+      notifyUnauthorized();
     }
 
     return Promise.reject(error);

@@ -1,15 +1,43 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import api from "../api/axiosConfig";
+import {
+  clearStoredAuth,
+  getStoredToken,
+  getStoredUser,
+  isTokenExpired,
+  setStoredAuth,
+  UNAUTHORIZED_EVENT,
+} from "../utils/authStorage";
 import AuthContext from "./authContext";
 
 function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem("authToken"));
+  const [token, setToken] = useState(() => {
+    const storedToken = getStoredToken();
+
+    if (isTokenExpired(storedToken)) {
+      clearStoredAuth();
+      return null;
+    }
+
+    return storedToken;
+  });
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("authUser");
-    return storedUser ? JSON.parse(storedUser) : null;
+    const storedToken = getStoredToken();
+
+    if (isTokenExpired(storedToken)) {
+      return null;
+    }
+
+    return getStoredUser();
   });
 
   const isAuthenticated = Boolean(token);
+
+  const clearSession = useCallback(() => {
+    clearStoredAuth();
+    setToken(null);
+    setUser(null);
+  }, []);
 
   const login = useCallback(async (credentials) => {
     const { data } = await api.post("/auth/login", credentials);
@@ -19,8 +47,7 @@ function AuthProvider({ children }) {
       name: data.name,
     };
 
-    localStorage.setItem("authToken", data.token);
-    localStorage.setItem("authUser", JSON.stringify(authenticatedUser));
+    setStoredAuth(data.token, authenticatedUser);
     setToken(data.token);
     setUser(authenticatedUser);
 
@@ -33,22 +60,28 @@ function AuthProvider({ children }) {
   }, []);
 
   const logout = useCallback(async () => {
-    const currentToken = localStorage.getItem("authToken");
+    const currentToken = getStoredToken();
 
     try {
-      if (currentToken) {
+      if (currentToken && !isTokenExpired(currentToken)) {
         await api.post("/auth/logout");
       }
     } finally {
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("authUser");
-      setToken(null);
-      setUser(null);
+      clearSession();
     }
-  }, []);
+  }, [clearSession]);
+
+  useEffect(() => {
+    window.addEventListener(UNAUTHORIZED_EVENT, clearSession);
+
+    return () => {
+      window.removeEventListener(UNAUTHORIZED_EVENT, clearSession);
+    };
+  }, [clearSession]);
 
   const value = useMemo(
     () => ({
+      clearSession,
       isAuthenticated,
       login,
       logout,
@@ -56,7 +89,7 @@ function AuthProvider({ children }) {
       token,
       user,
     }),
-    [isAuthenticated, login, logout, registerUser, token, user],
+    [clearSession, isAuthenticated, login, logout, registerUser, token, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
