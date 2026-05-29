@@ -83,8 +83,10 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public void delete(Long id) {
-        Usuario existing = usuarioRepository.findById(Objects.requireNonNull(id))
+        Long userId = Objects.requireNonNull(id);
+        Usuario existing = usuarioRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        usuarioRolRepository.deleteAll(usuarioRolRepository.findByUserId(userId));
         usuarioRepository.delete(Objects.requireNonNull(existing));
     }
 
