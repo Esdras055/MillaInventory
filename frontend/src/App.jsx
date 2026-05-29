@@ -4,6 +4,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import ModulePage from "./pages/ModulePage";
+import ReportesPage from "./pages/ReportesPage";
 import "./App.css";
 
 function App() {
@@ -68,15 +69,7 @@ function App() {
               />
             }
           />
-          <Route
-            path="/reportes"
-            element={
-              <ModulePage
-                title="Reportes"
-                description="Resumenes y reportes del estado del inventario."
-              />
-            }
-          />
+          <Route path="/reportes" element={<ReportesPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
