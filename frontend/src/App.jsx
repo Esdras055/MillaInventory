@@ -3,6 +3,7 @@ import AppLayout from "./components/AppLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
 import DashboardPage from "./pages/DashboardPage";
+import EntradasPage from "./pages/EntradasPage";
 import LoginPage from "./pages/LoginPage";
 import ModulePage from "./pages/ModulePage";
 import ReportesPage from "./pages/ReportesPage";
@@ -21,12 +22,7 @@ function App() {
             <Route path="/usuarios" element={<UsuariosPage />} />
             <Route
               path="/entradas"
-              element={
-                <ModulePage
-                  title="Entradas"
-                  description="Registro y consulta de entradas de inventario."
-                />
-              }
+              element={<EntradasPage />}
             />
             <Route
               path="/salidas"
