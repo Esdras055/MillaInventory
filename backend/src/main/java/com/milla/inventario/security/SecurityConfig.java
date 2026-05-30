@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/users/*/roles/*").hasRole("ADMIN")
                 .requestMatchers("/api/entradas/**", "/api/salidas/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/reportes/resumen").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/reportes/stock/bodega/**").authenticated()
                 .requestMatchers("/api/reportes/**").hasAnyRole("ADMIN", "ANALYST")
                 .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos", "/api/bodegas-productos", "/api/entradas", "/api/salidas").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**", "/api/bodegas-productos/**", "/api/entradas/**", "/api/salidas/**").hasRole("ADMIN")

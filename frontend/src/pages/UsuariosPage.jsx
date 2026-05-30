@@ -20,6 +20,7 @@ import {
   replaceUsuarioRoles,
   updateUsuario,
 } from "../api/usuariosApi";
+import AlertMessage from "../components/AlertMessage";
 import useAuth from "../hooks/useAuth";
 
 const emptyForm = {
@@ -30,6 +31,8 @@ const emptyForm = {
   roleIds: [],
   username: "",
 };
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 async function fetchUserManagementData() {
   const [usuariosResponse, rolesResponse] = await Promise.all([
@@ -200,6 +203,11 @@ function UsuariosPage() {
       return;
     }
 
+    if (!emailRegex.test(form.username.trim())) {
+      setError("El usuario debe ser un correo valido.");
+      return;
+    }
+
     if (!isEditing && !form.password.trim()) {
       setError("La contrasena es requerida para crear usuarios.");
       return;
@@ -318,17 +326,13 @@ function UsuariosPage() {
         </button>
       </div>
 
-      {error && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
-
-      {success && (
-        <div className="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-          {success}
-        </div>
-      )}
+      <AlertMessage message={error} onClose={() => setError("")} type="error" />
+      <AlertMessage
+        autoCloseMs={4000}
+        message={success}
+        onClose={() => setSuccess("")}
+        type="success"
+      />
 
       <div>
         <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
@@ -486,10 +490,11 @@ function UsuariosPage() {
                   </label>
                   <input
                     className="mt-2 min-h-11 w-full rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                    autoComplete="email"
                     id="username"
                     name="username"
                     onChange={handleInputChange}
-                    type="text"
+                    type="email"
                     value={form.username}
                   />
                 </div>

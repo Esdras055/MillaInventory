@@ -32,6 +32,7 @@ import org.springframework.http.HttpStatus;
 public class UsuarioService implements IUsuarioService {
 
     private static final String DEFAULT_ROLE = "ROLE_USER";
+    private static final String EMAIL_REGEX = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
 
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
@@ -159,6 +160,7 @@ public class UsuarioService implements IUsuarioService {
                 || isBlank(request.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Name, username y password son requeridos");
         }
+        validateEmail(request.getUsername());
     }
 
     private void validateUpdateRequest(ActualizarUsuarioDTO request) {
@@ -171,8 +173,17 @@ public class UsuarioService implements IUsuarioService {
         if (request.getUsername() != null && request.getUsername().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username no puede estar vacio");
         }
+        if (request.getUsername() != null) {
+            validateEmail(request.getUsername());
+        }
         if (request.getPassword() != null && request.getPassword().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password no puede estar vacio");
+        }
+    }
+
+    private void validateEmail(String value) {
+        if (value == null || !value.matches(EMAIL_REGEX)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username debe ser un correo valido");
         }
     }
 
