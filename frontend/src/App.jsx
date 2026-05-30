@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RoleRoute from "./routes/RoleRoute";
+import BodegasPage from "./pages/BodegasPage";
 import DashboardPage from "./pages/DashboardPage";
 import EntradasPage from "./pages/EntradasPage";
 import LoginPage from "./pages/LoginPage";
@@ -43,9 +44,7 @@ function App() {
           />
           <Route
             path="/bodegas"
-            element={
-              <ModulePage title="Bodegas" description="Gestion de bodegas disponibles." />
-            }
+            element={<BodegasPage />}
           />
           <Route
             path="/categorias"

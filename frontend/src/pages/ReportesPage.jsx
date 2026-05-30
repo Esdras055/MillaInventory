@@ -1,6 +1,7 @@
 import { Download, FileSpreadsheet, Loader2, Printer, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { getMovimientos } from "../api/reportesApi";
+import AlertMessage from "../components/AlertMessage";
 import {
   exportMovementsToExcel,
   exportMovementsToPdf,
@@ -156,11 +157,12 @@ function ReportesPage() {
           </div>
         </div>
 
-        {error && (
-          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
-          </div>
-        )}
+        <AlertMessage
+          className="mt-4 mb-0"
+          message={error}
+          onClose={() => setError("")}
+          type="error"
+        />
       </div>
 
       <div className="rounded-lg border border-slate-200 bg-white shadow-sm">

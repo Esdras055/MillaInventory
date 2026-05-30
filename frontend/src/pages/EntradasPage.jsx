@@ -19,6 +19,7 @@ import {
   getProveedores,
   updateEntrada,
 } from "../api/entradasApi";
+import AlertMessage from "../components/AlertMessage";
 
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -295,17 +296,13 @@ function EntradasPage() {
         </div>
       </div>
 
-      {error && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
-
-      {success && (
-        <div className="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-          {success}
-        </div>
-      )}
+      <AlertMessage message={error} onClose={() => setError("")} type="error" />
+      <AlertMessage
+        autoCloseMs={4000}
+        message={success}
+        onClose={() => setSuccess("")}
+        type="success"
+      />
 
       <section className="rounded-lg border border-slate-200 bg-white shadow-sm">
         <div className="border-b border-slate-200 px-5 py-4">

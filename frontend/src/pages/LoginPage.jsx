@@ -2,6 +2,7 @@ import { Eye, EyeOff, LockKeyhole, PackageCheck, User } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import AlertMessage from "../components/AlertMessage";
 import useAuth from "../hooks/useAuth";
 
 function LoginPage() {
@@ -254,11 +255,12 @@ function LoginPage() {
               </div>
             )}
 
-            {serverError && (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                {serverError}
-              </div>
-            )}
+            <AlertMessage
+              className="mb-0"
+              message={serverError}
+              onClose={() => setServerError("")}
+              type="error"
+            />
 
             <button
               className="flex min-h-11 w-full items-center justify-center rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-400"
