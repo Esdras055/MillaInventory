@@ -6,6 +6,7 @@ import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import ModulePage from "./pages/ModulePage";
 import ReportesPage from "./pages/ReportesPage";
+import SalidasPage from "./pages/SalidasPage";
 import UsuariosPage from "./pages/UsuariosPage";
 import "./App.css";
 
@@ -29,12 +30,7 @@ function App() {
             />
             <Route
               path="/salidas"
-              element={
-                <ModulePage
-                  title="Salidas"
-                  description="Registro y consulta de salidas de inventario."
-                />
-              }
+              element={<SalidasPage />}
             />
           </Route>
           <Route element={<RoleRoute allowedRoles={["ROLE_ADMIN", "ROLE_ANALYST"]} />}>
