@@ -73,8 +73,12 @@ function getCurrentMonthRange() {
 
 function DashboardPage() {
   const { user } = useAuth();
+  const canViewOperationalReports = user?.roles?.some((role) =>
+    ["ROLE_ADMIN", "ROLE_ANALYST"].includes(role),
+  );
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isOperationalLoading, setIsOperationalLoading] = useState(true);
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [recentMovements, setRecentMovements] = useState([]);
   const [resumen, setResumen] = useState(null);
@@ -85,15 +89,39 @@ function DashboardPage() {
     async function loadDashboard() {
       setError("");
       setIsLoading(true);
+      setIsOperationalLoading(canViewOperationalReports);
+
+      try {
+        const resumenResponse = await getResumen();
+
+        if (!ignore) {
+          setResumen(resumenResponse.data);
+        }
+      } catch {
+        if (!ignore) {
+          setError("No se pudo cargar el resumen del dashboard.");
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoading(false);
+        }
+      }
+
+      if (!canViewOperationalReports) {
+        if (!ignore) {
+          setLowStockProducts([]);
+          setRecentMovements([]);
+          setIsOperationalLoading(false);
+        }
+        return;
+      }
 
       try {
         const { fechaInicio, fechaFin } = getCurrentMonthRange();
-        const [resumenResponse, lowStockResponse, movementsResponse] =
-          await Promise.all([
-            getResumen(),
-            getProductosBajoStock(10),
-            getMovimientos(fechaInicio, fechaFin),
-          ]);
+        const [lowStockResponse, movementsResponse] = await Promise.all([
+          getProductosBajoStock(10),
+          getMovimientos(fechaInicio, fechaFin),
+        ]);
 
         if (!ignore) {
           const sortedMovements = [...movementsResponse.data]
@@ -103,17 +131,16 @@ function DashboardPage() {
             })
             .slice(0, 8);
 
-          setResumen(resumenResponse.data);
           setLowStockProducts(lowStockResponse.data);
           setRecentMovements(sortedMovements);
         }
       } catch {
         if (!ignore) {
-          setError("No se pudo cargar la informacion del dashboard.");
+          setError("No se pudo cargar la informacion operativa del dashboard.");
         }
       } finally {
         if (!ignore) {
-          setIsLoading(false);
+          setIsOperationalLoading(false);
         }
       }
     }
@@ -123,7 +150,7 @@ function DashboardPage() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [canViewOperationalReports]);
 
   return (
     <section>
@@ -155,10 +182,15 @@ function DashboardPage() {
         ))}
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
-        <LowStockTable items={lowStockProducts} loading={isLoading} />
-        <RecentMovementsTable items={recentMovements} loading={isLoading} />
-      </div>
+      {canViewOperationalReports && (
+        <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+          <LowStockTable items={lowStockProducts} loading={isOperationalLoading} />
+          <RecentMovementsTable
+            items={recentMovements}
+            loading={isOperationalLoading}
+          />
+        </div>
+      )}
     </section>
   );
 }

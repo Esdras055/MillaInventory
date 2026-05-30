@@ -12,6 +12,7 @@ import {
   PackageX,
   Tags,
   Truck,
+  Users,
   X,
 } from "lucide-react";
 import { useState } from "react";
@@ -20,19 +21,34 @@ import useAuth from "../hooks/useAuth";
 
 const navigationItems = [
   { label: "Inicio", path: "/dashboard", icon: Home },
+  { label: "Usuarios", path: "/usuarios", icon: Users, roles: ["ROLE_ADMIN"] },
   { label: "Productos", path: "/productos", icon: Boxes },
   { label: "Bodegas", path: "/bodegas", icon: Building2 },
   { label: "Categorias", path: "/categorias", icon: FolderTree },
   { label: "Marcas", path: "/marcas", icon: Tags },
   { label: "Proveedores", path: "/proveedores", icon: Truck },
-  { label: "Entradas", path: "/entradas", icon: PackagePlus },
-  { label: "Salidas", path: "/salidas", icon: PackageX },
-  { label: "Reportes", path: "/reportes", icon: ChartNoAxesCombined },
+  { label: "Entradas", path: "/entradas", icon: PackagePlus, roles: ["ROLE_ADMIN"] },
+  { label: "Salidas", path: "/salidas", icon: PackageX, roles: ["ROLE_ADMIN"] },
+  {
+    label: "Reportes",
+    path: "/reportes",
+    icon: ChartNoAxesCombined,
+    roles: ["ROLE_ADMIN", "ROLE_ANALYST"],
+  },
 ];
+
+function canViewItem(item, userRoles) {
+  if (!item.roles) {
+    return true;
+  }
+
+  return item.roles.some((role) => userRoles.includes(role));
+}
 
 function AppLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { logout, user } = useAuth();
+  const userRoles = user?.roles || [];
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-950">
@@ -64,7 +80,7 @@ function AppLayout() {
           </div>
 
           <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-            {navigationItems.map((item) => {
+            {navigationItems.filter((item) => canViewItem(item, userRoles)).map((item) => {
               const Icon = item.icon;
 
               return (

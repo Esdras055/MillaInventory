@@ -1,10 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import RoleRoute from "./routes/RoleRoute";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import ModulePage from "./pages/ModulePage";
 import ReportesPage from "./pages/ReportesPage";
+import UsuariosPage from "./pages/UsuariosPage";
 import "./App.css";
 
 function App() {
@@ -14,6 +16,30 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route element={<RoleRoute allowedRoles={["ROLE_ADMIN"]} />}>
+            <Route path="/usuarios" element={<UsuariosPage />} />
+            <Route
+              path="/entradas"
+              element={
+                <ModulePage
+                  title="Entradas"
+                  description="Registro y consulta de entradas de inventario."
+                />
+              }
+            />
+            <Route
+              path="/salidas"
+              element={
+                <ModulePage
+                  title="Salidas"
+                  description="Registro y consulta de salidas de inventario."
+                />
+              }
+            />
+          </Route>
+          <Route element={<RoleRoute allowedRoles={["ROLE_ADMIN", "ROLE_ANALYST"]} />}>
+            <Route path="/reportes" element={<ReportesPage />} />
+          </Route>
           <Route
             path="/productos"
             element={
@@ -51,25 +77,6 @@ function App() {
               />
             }
           />
-          <Route
-            path="/entradas"
-            element={
-              <ModulePage
-                title="Entradas"
-                description="Registro y consulta de entradas de inventario."
-              />
-            }
-          />
-          <Route
-            path="/salidas"
-            element={
-              <ModulePage
-                title="Salidas"
-                description="Registro y consulta de salidas de inventario."
-              />
-            }
-          />
-          <Route path="/reportes" element={<ReportesPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

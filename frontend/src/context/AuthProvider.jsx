@@ -45,6 +45,7 @@ function AuthProvider({ children }) {
       id: data.id,
       username: data.username,
       name: data.name,
+      roles: data.roles || [],
     };
 
     setStoredAuth(data.token, authenticatedUser);

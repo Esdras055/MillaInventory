@@ -1,6 +1,7 @@
 package com.milla.inventario.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,13 +56,14 @@ public class AuthService implements IAuthService {
 
         Usuario usuario = usuarioRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no encontrado"));
+        List<String> roles = usuarioRepository.findRolesByUsername(request.getUsername());
 
         usuario.setLastLogin(LocalDateTime.now());
         usuarioRepository.save(usuario);
 
         saveToken(usuario, jwtToken);
 
-        return new AuthResponseDTO(jwtToken, request.getUsername(), usuario.getId(), usuario.getName());
+        return new AuthResponseDTO(jwtToken, request.getUsername(), usuario.getId(), usuario.getName(), roles);
     }
 
     @Override
