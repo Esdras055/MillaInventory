@@ -44,3 +44,4 @@ backend/.vscode/
 backend/.env
 backend/*.env
 !backend/*.env.example
+logfile
