@@ -107,90 +107,124 @@ export default function CategoriasPage() {
   }
 
   return (
-    <section>
+  <section className="space-y-6">
 
-      <h1 className="mb-6 text-2xl font-bold">
-        Categorías
-      </h1>
+    <div className="flex items-center justify-between">
 
-      <form
-        onSubmit={handleSubmit}
-        className="mb-8 flex gap-3"
-      >
+      <div>
+        <p className="text-emerald-600 text-sm uppercase">
+          Inventario
+        </p>
 
-        <input
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          placeholder="Nombre de categoría"
-          className="rounded-lg border px-4 py-2"
-        />
+        <h1 className="text-3xl font-bold">
+          Categorías
+        </h1>
+      </div>
 
-        <button
-          className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white"
+    </div>
+
+    <div className="rounded-xl border bg-white">
+
+      <div className="border-b p-5">
+
+        <h2 className="font-semibold">
+          Categorías registradas
+        </h2>
+
+      </div>
+
+      <div className="p-5">
+
+        <form
+          onSubmit={handleSubmit}
+          className="mb-6 flex gap-3"
         >
-          <Plus size={18} />
 
-          {editingCategoria
-            ? "Actualizar"
-            : "Crear"}
-        </button>
+          <input
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            placeholder="Nombre de categoría"
+            className="flex-1 rounded-lg border px-4 py-2"
+          />
 
-      </form>
+          <button
+            className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white"
+          >
+            <Plus size={18} />
 
-      <table className="w-full">
+            {editingCategoria
+              ? "Actualizar"
+              : "Nueva categoría"}
+          </button>
 
-        <thead>
+        </form>
 
-          <tr>
+        <table className="w-full">
 
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
+          <thead>
 
-          </tr>
+            <tr className="border-b text-left">
 
-        </thead>
-
-        <tbody>
-
-          {categorias.map((categoria) => (
-
-            <tr key={categoria.id}>
-
-              <td>{categoria.id}</td>
-
-              <td>{categoria.nombre}</td>
-
-              <td>
-
-                <div className="flex gap-2">
-
-                  <button
-                    className="rounded border p-2"
-                    onClick={() => handleEdit(categoria)}
-                  >
-                    <Edit size={16} />
-                  </button>
-
-                  <button
-                    className="rounded border border-red-200 p-2 text-red-600"
-                    onClick={() => handleDelete(categoria)}
-                  >
-                    <Trash2 size={16} />
-                  </button>
-
-                </div>
-
-              </td>
+              <th className="py-3">ID</th>
+              <th className="py-3">Nombre</th>
+              <th className="py-3">Acciones</th>
 
             </tr>
 
-          ))}
+          </thead>
 
-        </tbody>
+          <tbody>
 
-      </table>
+            {categorias.map((categoria) => (
 
-    </section>
-  );
+              <tr
+                key={categoria.id}
+                className="border-b"
+              >
+
+                <td className="py-4">
+                  #{categoria.id}
+                </td>
+
+                <td className="py-4">
+                  {categoria.nombre}
+                </td>
+
+                <td className="py-4">
+
+                  <div className="flex gap-2">
+
+                    <button
+                      className="rounded-lg border p-2"
+                      onClick={() => handleEdit(categoria)}
+                    >
+                      <Edit size={16} />
+                    </button>
+
+                    <button
+                      className="rounded-lg border border-red-200 p-2 text-red-600"
+                      onClick={() => handleDelete(categoria)}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </section>
+);
+
 }

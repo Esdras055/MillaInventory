@@ -41,15 +41,7 @@ function App() {
             path="/bodegas"
             element={<BodegasPage />}
           />
-          <Route
-            path="/categorias"
-            element={
-              <ModulePage
-                title="Categorias"
-                description="Gestion de categorias de productos."
-              />
-            }
-          />
+          <Route path="/categorias" element={<CategoriasPage />} />
           <Route
             path="/marcas"
             element={<ModulePage title="Marcas" description="Gestion de marcas." />}

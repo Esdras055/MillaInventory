@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/reportes/**").hasAnyRole("ADMIN", "ANALYST")
                 .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos", "/api/bodegas-productos", "/api/entradas", "/api/salidas").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**", "/api/bodegas-productos/**", "/api/entradas/**", "/api/salidas/**").permitAll()
+                .requestMatchers("/api/categorias/**").authenticated()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(exception -> exception
