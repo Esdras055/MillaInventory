@@ -1,5 +1,7 @@
 package com.milla.inventario.security;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,8 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,8 +47,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/reportes/resumen").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/reportes/stock/bodega/**").authenticated()
                 .requestMatchers("/api/reportes/**").hasAnyRole("ADMIN", "ANALYST")
-                .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos", "/api/bodegas-productos", "/api/entradas", "/api/salidas").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**", "/api/bodegas-productos/**", "/api/entradas/**", "/api/salidas/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/users", "/api/bodegas", "/api/ubicaciones", "/api/categorias", "/api/marcas", "/api/proveedores", "/api/productos", "/api/bodegas-productos", "/api/entradas", "/api/salidas").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/bodegas/**", "/api/ubicaciones/**", "/api/categorias/**", "/api/marcas/**", "/api/proveedores/**", "/api/productos/**", "/api/bodegas-productos/**", "/api/entradas/**", "/api/salidas/**").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(exception -> exception
@@ -71,9 +71,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-            "http://localhost:5173",
-            "http://localhost:5174"
+        configuration.setAllowedOriginPatterns(List.of(
+            "http://localhost:*",
+            "https://*.devtunnels.ms/"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
