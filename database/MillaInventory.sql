@@ -80,6 +80,17 @@ CREATE TABLE marcas_productos (
 );
 
 -- ========================
+-- TABLA: marcas_proveedores (N:M)
+-- ========================
+CREATE TABLE marcas_proveedores (
+    marcaId INTEGER NOT NULL,
+    proveedorId INTEGER NOT NULL,
+    PRIMARY KEY (marcaId, proveedorId),
+    FOREIGN KEY (marcaId) REFERENCES marcas(id),
+    FOREIGN KEY (proveedorId) REFERENCES proveedores(id)
+);
+
+-- ========================
 -- TABLA: bodegas_productos (stock)
 -- ========================
 CREATE TABLE bodegas_productos (
@@ -231,6 +242,10 @@ INSERT INTO productos (nombre, categoriaId, precio) VALUES
 INSERT INTO marcas_productos VALUES
 (1,1),(1,2),(2,1),(3,2),(4,2),(5,3),(6,3),(7,4),(8,4);
 
+-- marcasproveedores (cada marca asociada a al menos un proveedor de ejemplo)
+INSERT INTO marcas_proveedores (marcaId, proveedorId) VALUES
+(1,1),(1,2),(2,2),(2,3),(3,3),(4,4);
+
 -- bodegasproductos
 INSERT INTO bodegas_productos (productoId, bodegaId, cantidad) VALUES
 (1,1,3),(1,2,3),(1,3,2),(2,4,10),(2,1,6),
@@ -285,6 +300,10 @@ CREATE INDEX idx_bodegas_productos_bodega ON bodegas_productos(bodegaId);
 -- Relacion marcas_productos
 CREATE INDEX idx_marcas_productos_producto ON marcas_productos(productoId);
 CREATE INDEX idx_marcas_productos_marca ON marcas_productos(marcaId);
+
+-- Relacion marcas_proveedores
+CREATE INDEX idx_marcas_proveedores_marca ON marcas_proveedores(marcaId);
+CREATE INDEX idx_marcas_proveedores_proveedor ON marcas_proveedores(proveedorId);
 
 -- Entradas (reportes)
 CREATE INDEX idx_entradas_producto ON entradas(productoId);
