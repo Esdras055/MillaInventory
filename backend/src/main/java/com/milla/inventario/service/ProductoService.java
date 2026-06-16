@@ -85,13 +85,26 @@ public class ProductoService implements IProductoService {
         return ProductoMapper.toDTO(productoRepository.save(existing));
     }
 
-    @Override
-    public void delete(Long id) {
-        Producto existing = productoRepository.findById(Objects.requireNonNull(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
-        productoRepository.delete(Objects.requireNonNull(existing));
-    }
+  @Override
+public void delete(Long id) {
 
+    Producto existing = productoRepository.findById(id)
+            .orElseThrow(() ->
+                    new ResponseStatusException(
+                            HttpStatus.NOT_FOUND,
+                            "Producto no encontrado"));
+
+    // Eliminar relaciones
+    productoRepository.deleteMarcasProducto(id);
+    productoRepository.deleteBodegasProducto(id);
+    productoRepository.deleteEntradasProducto(id);
+    productoRepository.deleteSalidasProducto(id);
+
+    // Eliminar producto
+    productoRepository.delete(existing);
+
+    System.out.println("Producto eliminado correctamente");
+}
     @Override
     public ProductoDTO findById(Long id) {
         return productoRepository.findById(Objects.requireNonNull(id))

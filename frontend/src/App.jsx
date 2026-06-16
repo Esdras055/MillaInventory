@@ -10,6 +10,7 @@ import ModulePage from "./pages/ModulePage";
 import ReportesPage from "./pages/ReportesPage";
 import SalidasPage from "./pages/SalidasPage";
 import UsuariosPage from "./pages/UsuariosPage";
+import ProductosPage from "./pages/ProductosPage";
 import "./App.css";
 
 function App() {
@@ -33,15 +34,8 @@ function App() {
           <Route element={<RoleRoute allowedRoles={["ROLE_ADMIN", "ROLE_ANALYST"]} />}>
             <Route path="/reportes" element={<ReportesPage />} />
           </Route>
-          <Route
-            path="/productos"
-            element={
-              <ModulePage
-                title="Productos"
-                description="Gestion de productos del inventario."
-              />
-            }
-          />
+         <Route path="/productos" element={<ProductosPage />}/>
+          
           <Route
             path="/bodegas"
             element={<BodegasPage />}
