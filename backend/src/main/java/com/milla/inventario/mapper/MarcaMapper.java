@@ -1,5 +1,7 @@
 package com.milla.inventario.mapper;
 
+import java.util.stream.Collectors;
+
 import com.milla.inventario.dto.marca.CrearMarcaDTO;
 import com.milla.inventario.dto.marca.MarcaDTO;
 import com.milla.inventario.entity.Marca;
@@ -14,6 +16,12 @@ public class MarcaMapper {
         dto.setNombre(marca.getNombre());
         dto.setCreatedAt(marca.getCreatedAt());
         dto.setUpdatedAt(marca.getUpdatedAt());
+        dto.setCategorias(marca.getCategorias().stream()
+                .map(CategoriaMapper::toDTO)
+                .collect(Collectors.toList()));
+        dto.setProveedores(marca.getProveedores().stream()
+                .map(ProveedorMapper::toDTO)
+                .collect(Collectors.toList()));
         return dto;
     }
 
