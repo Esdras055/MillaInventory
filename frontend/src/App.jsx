@@ -11,6 +11,7 @@ import ReportesPage from "./pages/ReportesPage";
 import SalidasPage from "./pages/SalidasPage";
 import UsuariosPage from "./pages/UsuariosPage";
 import ProductosPage from "./pages/ProductosPage";
+import MarcasPage from "./pages/MarcasPage";
 import "./App.css";
 
 function App() {
@@ -49,10 +50,7 @@ function App() {
               />
             }
           />
-          <Route
-            path="/marcas"
-            element={<ModulePage title="Marcas" description="Gestion de marcas." />}
-          />
+          <Route path="/marcas" element={<MarcasPage />} />
           <Route
             path="/proveedores"
             element={
