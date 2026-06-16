@@ -11,6 +11,7 @@ import ReportesPage from "./pages/ReportesPage";
 import SalidasPage from "./pages/SalidasPage";
 import UsuariosPage from "./pages/UsuariosPage";
 import ProductosPage from "./pages/ProductosPage";
+import CategoriasPage from "./pages/CategoriasPage";
 import "./App.css";
 
 function App() {
