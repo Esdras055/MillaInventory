@@ -80,6 +80,17 @@ CREATE TABLE marcas_productos (
 );
 
 -- ========================
+-- TABLA: marcas_categorias (N:M)
+-- ========================
+CREATE TABLE marcas_categorias (
+    marcaId INTEGER NOT NULL,
+    categoriaId INTEGER NOT NULL,
+    PRIMARY KEY (marcaId, categoriaId),
+    FOREIGN KEY (marcaId) REFERENCES marcas(id),
+    FOREIGN KEY (categoriaId) REFERENCES categorias(id)
+);
+
+-- ========================
 -- TABLA: marcas_proveedores (N:M)
 -- ========================
 CREATE TABLE marcas_proveedores (
@@ -242,6 +253,10 @@ INSERT INTO productos (nombre, categoriaId, precio) VALUES
 INSERT INTO marcas_productos VALUES
 (1,1),(1,2),(2,1),(3,2),(4,2),(5,3),(6,3),(7,4),(8,4);
 
+-- marcascategorias (cada marca asociada a las categorias de sus productos de ejemplo)
+INSERT INTO marcas_categorias (marcaId, categoriaId) VALUES
+(1,1),(1,2),(2,1),(2,2),(3,2),(3,3),(4,3),(4,4),(4,5);
+
 -- marcasproveedores (cada marca asociada a al menos un proveedor de ejemplo)
 INSERT INTO marcas_proveedores (marcaId, proveedorId) VALUES
 (1,1),(1,2),(2,2),(2,3),(3,3),(4,4);
@@ -300,6 +315,10 @@ CREATE INDEX idx_bodegas_productos_bodega ON bodegas_productos(bodegaId);
 -- Relacion marcas_productos
 CREATE INDEX idx_marcas_productos_producto ON marcas_productos(productoId);
 CREATE INDEX idx_marcas_productos_marca ON marcas_productos(marcaId);
+
+-- Relacion marcas_categorias
+CREATE INDEX idx_marcas_categorias_marca ON marcas_categorias(marcaId);
+CREATE INDEX idx_marcas_categorias_categoria ON marcas_categorias(categoriaId);
 
 -- Relacion marcas_proveedores
 CREATE INDEX idx_marcas_proveedores_marca ON marcas_proveedores(marcaId);
