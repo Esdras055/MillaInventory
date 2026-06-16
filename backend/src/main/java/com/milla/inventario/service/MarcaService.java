@@ -79,14 +79,14 @@ public class MarcaService implements IMarcaService {
 
     @Override
     public void delete(Long id) {
-        marcaRepository.findById(Objects.requireNonNull(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca no encontrada"));
+        if (!marcaRepository.existsById(Objects.requireNonNull(id))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca no encontrada");
+        }
 
         marcaRepository.deleteMarcasCategorias(id);
         marcaRepository.deleteMarcasProveedores(id);
         marcaRepository.deleteMarcasProductos(id);
-
-        marcaRepository.deleteById(id);
+        marcaRepository.deleteMarcaById(id);
     }
 
     @Override
