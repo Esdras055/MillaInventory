@@ -12,6 +12,7 @@ import SalidasPage from "./pages/SalidasPage";
 import UsuariosPage from "./pages/UsuariosPage";
 import ProductosPage from "./pages/ProductosPage";
 import MarcasPage from "./pages/MarcasPage";
+import ProveedoresPage from "./pages/ProveedoresPage";
 import "./App.css";
 
 function App() {
@@ -51,15 +52,7 @@ function App() {
             }
           />
           <Route path="/marcas" element={<MarcasPage />} />
-          <Route
-            path="/proveedores"
-            element={
-              <ModulePage
-                title="Proveedores"
-                description="Gestion de proveedores del inventario."
-              />
-            }
-          />
+          <Route path="/proveedores" element={<ProveedoresPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
