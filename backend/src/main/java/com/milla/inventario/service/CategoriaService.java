@@ -58,11 +58,23 @@ public class CategoriaService implements ICategoriaService {
     }
 
     @Override
-    public void delete(Long id) {
-        Categoria existing = categoriaRepository.findById(Objects.requireNonNull(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria no encontrada"));
-        categoriaRepository.delete(Objects.requireNonNull(existing));
+public void delete(Long id) {
+
+    Categoria existing = categoriaRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Categoria no encontrada"));
+
+    try {
+        categoriaRepository.delete(existing);
+
+    } catch (Exception e) {
+
+        throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "No se puede eliminar la categoria porque tiene productos asociados");
     }
+}
 
     @Override
     public CategoriaDTO findById(Long id) {
