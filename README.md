@@ -16,8 +16,23 @@ La aplicación web Inventario MILLA resuelve la necesidad de la empresa Milla de
 
 ## Manual de despligue
 
-** PROXIMAMENTE ** 
+Se necesita Docker Desktop con Docker Compose. Desde la raiz del proyecto:
 
-## Evidencias
+```bash
+docker compose up --build
+```
 
-** PROXIMAMENTE **
+La aplicacion queda disponible en `http://localhost:3000`, la API en
+`http://localhost:8080` y Swagger en
+`http://localhost:8080/swagger-ui.html`.
+
+PostgreSQL ejecuta `database/MillaInventory.sql` automaticamente al crear el
+volumen por primera vez. Para borrar la base, volver a crear las tablas y cargar
+otra vez los datos iniciales:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+

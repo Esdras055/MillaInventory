@@ -1,5 +1,5 @@
--- Crear base de datos
-CREATE DATABASE milla_inventory;
+-- La base de datos se crea mediante POSTGRES_DB en compose.yaml.
+-- Este archivo se ejecuta dentro de milla_inventory al crear el volumen por primera vez.
 
 -- ========================
 -- TABLA: categorias
