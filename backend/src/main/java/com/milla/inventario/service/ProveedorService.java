@@ -74,9 +74,15 @@ public class ProveedorService implements IProveedorService {
 
     @Override
     public void delete(Long id) {
-        Proveedor existing = proveedorRepository.findById(Objects.requireNonNull(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor no encontrado"));
-        proveedorRepository.delete(Objects.requireNonNull(existing));
+        if (!proveedorRepository.existsById(Objects.requireNonNull(id))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor no encontrado");
+        }
+        if (proveedorRepository.countEntradasByProveedorId(id) > 0) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "No se puede eliminar el proveedor porque tiene entradas registradas");
+        }
+        proveedorRepository.deleteProveedorMarcas(id);
+        proveedorRepository.deleteProveedorById(id);
     }
 
     @Override
